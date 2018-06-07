@@ -11,7 +11,5 @@ class CreateTasks < ActiveRecord::Migration[5.1]
     end
     add_index :tasks, :user_id
     add_index :tasks, :team_id
-    add_foreign_key :tasks, :users
-    add_foreign_key :tasks, :teams
   end
 end
