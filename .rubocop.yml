@@ -1,0 +1,39 @@
+AllCops:
+  Exclude:
+    - "Gemfile"
+    - "Gemfile.lock"
+    - "bin/**/*"
+    - "config/**/*"
+    - "db/schema.rb"
+    - "node_modules/**/*"
+    - "vendor/**/*" # rubocop config/default.yml
+  DisplayCopNames: true
+
+Layout:
+  Enabled: true
+
+Lint:
+  Enabled: false
+
+Metrics:
+  Enabled: false
+
+Performance:
+  Enabled: false
+
+Rails:
+  Enabled: false
+
+Security:
+  Enabled: false
+
+Style:
+  Enabled: false
+
+Bundler:
+  Enabled: false
+
+PredicateName:
+  NamePrefixBlacklist:
+    - has_
+    - have_
