@@ -22,8 +22,3 @@ build:
     - script:
         name: test
         code: RAILS_ENV=test bin/rails test
-
-  after-steps:
-    - slack-notifier:
-        url: $SLACK_WEBHOOK_URL
-        channel: railstutorial
