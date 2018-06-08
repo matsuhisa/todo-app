@@ -9,6 +9,6 @@ RSpec.describe "users/show", type: :view do
     render
     expect(rendered).to match(/Name/)
     expect(rendered).to match(/Email/)
-    expect(rendered).to match(/Password Digest/)
+    expect(rendered).to match(/Password digest/)
   end
 end
