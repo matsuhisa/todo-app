@@ -4,98 +4,50 @@ RSpec.describe UsersController, type: :controller do
   let(:valid_attributes) { { name: "mwed", email: "test@example.com", password_digest: "hoge" } }
   let(:invalid_attributes) { { name: "", email: "test@example.com", password_digest: "hoge" } }
 
-  describe "GET #index" do
-    it "returns a success response" do
-      user = User.create! valid_attributes
-      get :index, params: {}
-      expect(response).to be_success
-    end
+  describe "#index" do
+    let(:user) { create(:user) }
+    before { get :index }
+    it { expect(response).to have_http_status(:success) }
   end
 
-  describe "GET #show" do
-    it "returns a success response" do
-      user = User.create! valid_attributes
-      get :show, params: { id: user.to_param }
-      expect(response).to be_success
-    end
+  describe "#show" do
+    let(:user) { create(:user) }
+    before { get :show, params: { id: user.id } }
+    it { expect(response).to have_http_status(:success) }
   end
 
-  describe "GET #new" do
-    it "returns a success response" do
-      get :new, params: {}
-      expect(response).to be_success
-    end
+  describe "#new" do
+    let(:user) { create(:user) }
+    before { get :new }
+    it { expect(response).to have_http_status(:success) }
   end
 
-  describe "GET #edit" do
-    it "returns a success response" do
-      user = User.create! valid_attributes
-      get :edit, params: { id: user.to_param }
-      expect(response).to be_success
-    end
+  describe "#edit" do
+    let(:user) { create(:user) }
+    before { get :edit, params: { id: user.id } }
+    it { expect(response).to have_http_status(:success) }
   end
 
-  describe "POST #create" do
+  describe "#create" do
     context "with valid params" do
+      let(:user) { build(:user) }
+
       it "creates a new User" do
         expect {
-          post :create, params: { user: valid_attributes }
-        }.to change(User, :count).by(1)
-      end
+          post :create, params: { user: { name: user.name, email: user.email, password_digest: user.password_digest } }
+        }.to change { User.count }.from(0).to(1)
 
-      it "redirects to the created user" do
-        post :create, params: { user: valid_attributes }
         expect(response).to redirect_to(User.last)
       end
     end
 
     context "with invalid params" do
+      let(:user) { build(:user) }
+
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: { user: invalid_attributes }
+        post :create, params: { user: { name: "", email: user.email, password_digest: user.password_digest } }
         expect(response).to be_success
       end
-    end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) { { name: "mwed_edit", email: "test@example.com", password_digest: "hoge" } }
-
-      # it "updates the requested user" do
-      #   user = User.create! valid_attributes
-      #   put :update, params: { id: user.to_param, user: new_attributes }
-      #   user.reload
-      #   expect(response).to be_success
-      # end
-
-      it "redirects to the user" do
-        user = User.create! valid_attributes
-        put :update, params: { id: user.to_param, user: valid_attributes }
-        expect(response).to redirect_to(user)
-      end
-    end
-
-    context "with invalid params" do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        user = User.create! valid_attributes
-        put :update, params: { id: user.to_param, user: invalid_attributes }
-        expect(response).to be_success
-      end
-    end
-  end
-
-  describe "DELETE #destroy" do
-    it "destroys the requested user" do
-      user = User.create! valid_attributes
-      expect {
-        delete :destroy, params: { id: user.to_param }
-      }.to change(User, :count).by(-1)
-    end
-
-    it "redirects to the users list" do
-      user = User.create! valid_attributes
-      delete :destroy, params: { id: user.to_param }
-      expect(response).to redirect_to(users_url)
     end
   end
 end
