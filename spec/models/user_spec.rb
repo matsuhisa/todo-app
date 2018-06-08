@@ -1,23 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'バリデーション' do
+  describe '#valid?' do
     context 'nameとemailに正しい入力がされたとき' do
-      let(:user) { create(:user) }
+      let(:user) { build(:user) }
 
-      it { expect(user.valid?).to eq true }
+      it { expect(user.valid?).to be_truthy }
     end
 
     context 'nameが空のとき' do
-      let(:user) { create(:user, name: "") }
+      let(:user) { build(:user, name: "") }
 
-      it { expect(user.valid?).to eq false }
+      it { expect(user.valid?).to be_falsey }
     end
 
     context 'emailが空のとき' do
-      let(:user) { create(:user, email: "") }
+      let(:user) { build(:user, email: "") }
 
-      it { expect(user.valid?).to eq false }
+      it { expect(user.valid?).to be_falsey }
     end
   end
 end
