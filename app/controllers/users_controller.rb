@@ -2,7 +2,11 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @users = User.all
+    if logged_in?
+      @users = User.all
+    else
+      redirect_to root_path
+    end
   end
 
   def show
