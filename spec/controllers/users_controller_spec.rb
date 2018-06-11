@@ -17,7 +17,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe "#new" do
     let(:user) { create(:user) }
-    
+
     before { get :new }
     it { expect(response).to have_http_status(:success) }
   end
