@@ -1,2 +1,0 @@
-class TeamDoing < ApplicationRecord
-end
