@@ -9,8 +9,8 @@ RSpec.describe SessionsHelper, type: :helper do
   end
 
   describe '#current_user' do
-      let(:user) { create(:user) }
-      subject { helper.current_user }
+    let(:user) { create(:user) }
+    subject { helper.current_user }
 
     context 'ログインユーザーがいる場合' do
       before { helper.log_in(user) }

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
-
   describe "#new" do
     subject { get :new }
 
