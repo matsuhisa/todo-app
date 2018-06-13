@@ -1,0 +1,2 @@
+class TeamDueDate < ApplicationRecord
+end

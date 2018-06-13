@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180607060308) do
+ActiveRecord::Schema.define(version: 20180613045409) do
+
+  create_table "completion_dates", force: :cascade do |t|
+    t.integer "task_id", null: false
+    t.datetime "begin_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_completion_dates_on_task_id"
+  end
 
   create_table "due_dates", force: :cascade do |t|
     t.integer "task_id", null: false
@@ -18,6 +26,14 @@ ActiveRecord::Schema.define(version: 20180607060308) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["task_id"], name: "index_due_dates_on_task_id"
+  end
+
+  create_table "task_due_dates", force: :cascade do |t|
+    t.integer "task_id", null: false
+    t.datetime "end_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_task_due_dates_on_task_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -38,6 +54,14 @@ ActiveRecord::Schema.define(version: 20180607060308) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_team_doings_on_team_id"
+  end
+
+  create_table "team_due_dates", force: :cascade do |t|
+    t.integer "team_id", null: false
+    t.datetime "end_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_team_due_dates_on_team_id"
   end
 
   create_table "teams", force: :cascade do |t|
