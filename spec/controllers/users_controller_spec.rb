@@ -29,11 +29,7 @@ RSpec.describe UsersController, type: :controller do
     it do
       is_expected.to have_http_status(:success)
       expect(assigns(:user).class).to eq User
-<<<<<<< HEAD
     end
-=======
-     end
->>>>>>> Add rspec test of #update and #destroy
   end
 
   describe "#edit" do
@@ -61,13 +57,6 @@ RSpec.describe UsersController, type: :controller do
 
     context "with invalid params" do
       let(:user_params) { attributes_for :user, name: "" }
-<<<<<<< HEAD
-
-      it do
-        is_expected.not_to change { User.count }
-        expect(response).to render_template :new
-      end
-=======
 
       it do
         is_expected.not_to change { User.count }
@@ -77,37 +66,37 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "#update" do
-    let(:user) { create(:user) }
+    let!(:user) { create(:user) }
 
     context 'with valid params' do
-      before { put :update, params: { id: user.id, user: { id: user.id, name: "foo" } } }
+      let(:current_name) { user.name }
+      let(:another_name) { "foo" }
+      subject { proc { put :update, params: { id: user.id, user: { id: user.id, name: another_name } } } }
 
       it 'redirects to user page' do
-        expect(assigns(:user).name).to eq "foo"
+        is_expected.to change { user.reload.name }.from(current_name).to(another_name)
         expect(response).to redirect_to user
       end
     end
 
     context 'with invalid prams' do
-      before { put :update, params: { id: user.id, user: { id: user.id, name: "" } } }
+      let(:another_name) { "" }
+      subject { proc { put :update, params: { id: user.id, user: { id: user.id, name: another_name } } } }
 
       it 'redirects to user page' do
+        is_expected.to_not change { user.reload.name }
         expect(response).to render_template :edit
       end
     end
   end
 
   describe "#destroy" do
-    subject { proc { delete :destroy, params: { id: @user } } }
-
-    before do
-      @user = create(:user)
-    end
+    let!(:user) { create(:user) }
+    subject { proc { delete :destroy, params: { id: user } } }
 
     it "destroy a user" do
       is_expected.to change { User.count }.from(1).to(0)
       expect(response).to redirect_to users_url
->>>>>>> Add rspec test of #update and #destroy
     end
   end
 end
