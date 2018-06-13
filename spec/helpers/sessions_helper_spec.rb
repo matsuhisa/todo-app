@@ -1,15 +1,54 @@
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the SessionsHelper. For example:
-#
-# describe SessionsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe SessionsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#login' do
+    let(:user) { create(:user) }
+    subject { helper.log_in(user) }
+
+    it { is_expected.to eq user.id }
+  end
+
+  describe '#current_user' do
+      let(:user) { create(:user) }
+      subject { helper.current_user }
+
+    context 'ログインユーザーがいる場合' do
+      before { helper.log_in(user) }
+
+      it { is_expected.to eq user }
+    end
+    context 'ログインユーザーがいない場合' do
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#logged_in' do
+    let(:user) { create(:user) }
+    subject { helper.logged_in? }
+
+    context 'current_userがいる時' do
+      before { helper.log_in(user) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'current_userがnilの時' do
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#log_out' do
+    let(:user) { create(:user) }
+    subject { helper.log_out }
+
+    before {
+      helper.log_in(user)
+      helper.log_out
+    }
+
+    it {
+      expect(session[:user_id]).to be_nil
+      is_expected.to be_nil
+    }
+  end
 end
