@@ -44,8 +44,8 @@ GEM
 <<<<<<< HEAD
     bcrypt (3.1.12)
 =======
-    bcrypt-ruby (3.1.1.rc1)
->>>>>>> add secure password
+    bcrypt (3.1.12)
+>>>>>>> Fix conflict
     bindex (0.5.0)
     builder (3.2.3)
     byebug (10.0.2)
@@ -234,8 +234,8 @@ DEPENDENCIES
 <<<<<<< HEAD
   bcrypt
 =======
-  bcrypt-ruby (= 3.1.1.rc1)
->>>>>>> add secure password
+  bcrypt
+>>>>>>> Fix conflict
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
