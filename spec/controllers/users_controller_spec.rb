@@ -79,7 +79,6 @@ RSpec.describe UsersController, type: :controller do
     subject { proc { put :update, params: { id: user.id, user: user_params } } }
 
     let!(:user) { create(:user) }
-    let(:user_params) { { id: user.id, name: another_name, email: user.email, password: user.password, password_confirmation: user.password_confirmation } }
 
     context 'with valid params' do
       let(:user_params) { attributes_for :user, name: another_name }
@@ -106,7 +105,7 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "#destroy" do
-    subject { proc { delete :destroy, params: { id: user } } }
+    subject { proc { delete :destroy, params: { id: user.id } } }
 
     let!(:user) { create(:user) }
 

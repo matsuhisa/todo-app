@@ -39,23 +39,5 @@ RSpec.describe User, type: :model do
 
       it { is_expected.to be_invalid }
     end
-
-    context 'emailが正しくないとき' do
-      let(:user) { build(:user, email: "test@example") }
-
-      it { expect(user).to be_invalid }
-    end
-
-    context 'passwordが6文字のとき' do
-      let(:user) { build(:user, password: "aaaaaa", password_confirmation: "aaaaaa") }
-
-      it { expect(user).to be_valid }
-    end
-
-    context 'passwordが5文字のとき' do
-      let(:user) { build(:user, password: "aaaaa", password_confirmation: "aaaaa") }
-
-      it { expect(user).to be_invalid }
-    end
   end
 end

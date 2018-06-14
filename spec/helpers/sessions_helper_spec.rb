@@ -2,15 +2,17 @@ require 'rails_helper'
 
 RSpec.describe SessionsHelper, type: :helper do
   describe '#login' do
-    let(:user) { create(:user) }
     subject { helper.log_in(user) }
+
+    let(:user) { create(:user) }
 
     it { is_expected.to eq user.id }
   end
 
   describe '#current_user' do
-    let(:user) { create(:user) }
     subject { helper.current_user }
+
+    let(:user) { create(:user) }
 
     context 'ログインユーザーがいる場合' do
       before { helper.log_in(user) }
@@ -23,8 +25,9 @@ RSpec.describe SessionsHelper, type: :helper do
   end
 
   describe '#logged_in' do
-    let(:user) { create(:user) }
     subject { helper.logged_in? }
+
+    let(:user) { create(:user) }
 
     context 'current_userがいる時' do
       before { helper.log_in(user) }
@@ -38,13 +41,14 @@ RSpec.describe SessionsHelper, type: :helper do
   end
 
   describe '#log_out' do
-    let(:user) { create(:user) }
     subject { helper.log_out }
 
-    before {
+    let(:user) { create(:user) }
+
+    before do
       helper.log_in(user)
       helper.log_out
-    }
+    end
 
     it {
       expect(session[:user_id]).to be_nil

@@ -4,7 +4,7 @@ RSpec.describe SessionsController, type: :controller do
   describe "#new" do
     subject { get :new }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to have_http_status(:ok) }
   end
 
   describe "#create" do
@@ -20,13 +20,13 @@ RSpec.describe SessionsController, type: :controller do
     context 'emailが無効なとき' do
       let(:user_params) { { email: 'test@example.com', password: user.password } }
 
-      it { is_expected.to render_template :new }
+      it { is_expected.to redirect_to login_path }
     end
 
     context 'passwordが無効なとき' do
       let(:user_params) { { email: user.email, password: 'foobar' } }
 
-      it { is_expected.to render_template :new }
+      it { is_expected.to redirect_to login_path }
     end
   end
 end

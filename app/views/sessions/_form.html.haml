@@ -1,10 +1,10 @@
-= form_with scope: :session, url: login_path do |f|
+= form_with(scope: :session, url: login_path) do |f|
 
   .field
     = f.label :email
     = f.text_field :email
   .field
     = f.label :password
-    = f.text_field :password
+    = f.password_field :password
   .actions
     = f.submit 'Login'
