@@ -67,11 +67,12 @@ RSpec.describe UsersController, type: :controller do
 
   describe "#update" do
     let!(:user) { create(:user) }
+    let(:user_params) { { id: user.id, name: another_name, email: user.email, password: user.password, password_confirmation: user.password_confirmation } }
 
     context 'with valid params' do
       let(:current_name) { user.name }
       let(:another_name) { "foo" }
-      subject { proc { put :update, params: { id: user.id, user: { id: user.id, name: another_name } } } }
+      subject { proc { put :update, params: { id: user.id, user: user_params } } }
 
       it 'redirects to user page' do
         is_expected.to change { user.reload.name }.from(current_name).to(another_name)
@@ -81,7 +82,7 @@ RSpec.describe UsersController, type: :controller do
 
     context 'with invalid prams' do
       let(:another_name) { "" }
-      subject { proc { put :update, params: { id: user.id, user: { id: user.id, name: another_name } } } }
+      subject { proc { put :update, params: { id: user.id, user: user_params } } }
 
       it 'redirects to user page' do
         is_expected.to_not change { user.reload.name }
