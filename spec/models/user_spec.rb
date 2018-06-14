@@ -41,21 +41,21 @@ RSpec.describe User, type: :model do
     end
 
     context 'emailが正しくないとき' do
-      let(:user) { build(:user, email: "sample@com") }
+      let(:user) { build(:user, email: "test@example") }
 
-      it { expect(user.valid?).to be_falsey }
+      it { expect(user).to be_invalid }
     end
 
-    context 'passwordが空のとき' do
-      let(:user) { build(:user, password: "") }
+    context 'passwordが6文字のとき' do
+      let(:user) { build(:user, password: "aaaaaa", password_confirmation: "aaaaaa") }
 
-      it { expect(user.valid?).to be_falsey }
+      it { expect(user).to be_valid }
     end
 
-    context 'passwordが6文字未満のとき' do
-      let(:user) { build(:user, password: "test") }
+    context 'passwordが5文字のとき' do
+      let(:user) { build(:user, password: "aaaaa", password_confirmation: "aaaaa") }
 
-      it { expect(user.valid?).to be_falsey }
+      it { expect(user).to be_invalid }
     end
   end
 end

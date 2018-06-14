@@ -6,9 +6,19 @@ RSpec.describe UsersController, type: :controller do
 
     let(:user) { create(:user) }
 
-    it do
-      is_expected.to have_http_status(:ok)
-      expect(assigns(:users)).to contain_exactly user
+    context 'ログインしている時' do
+      before { allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(true) }
+
+      it do
+        is_expected.to have_http_status(:ok)
+        expect(assigns(:users)).to contain_exactly user
+      end
+    end
+
+    context 'ログインしていない時' do
+      before { allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(false) }
+
+      it { is_expected.to redirect_to root_path }
     end
   end
 
@@ -69,6 +79,7 @@ RSpec.describe UsersController, type: :controller do
     subject { proc { put :update, params: { id: user.id, user: user_params } } }
 
     let!(:user) { create(:user) }
+    let(:user_params) { { id: user.id, name: another_name, email: user.email, password: user.password, password_confirmation: user.password_confirmation } }
 
     context 'with valid params' do
       let(:user_params) { attributes_for :user, name: another_name }
