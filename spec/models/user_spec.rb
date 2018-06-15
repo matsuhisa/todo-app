@@ -5,7 +5,7 @@ RSpec.describe User, type: :model do
     subject { build :user, attributes }
 
     context 'name, email, passwordがvalidなとき' do
-      let(:attributes) { { } }
+      let(:attributes) { {} }
 
       it { is_expected.to be_valid }
     end
