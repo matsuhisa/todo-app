@@ -17,10 +17,6 @@ build:
     - bundle-install
 
     - script:
-        name: mysql server start
-        code: mysql.server start
-
-    - script:
         name: db:schema:load
         code: RAILS_ENV=test bin/rails db:schema:load
     - script:
