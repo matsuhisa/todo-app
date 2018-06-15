@@ -27,15 +27,19 @@ RSpec.describe User, type: :model do
     end
 
     context 'passwordが6文字のとき' do
-      let(:user) { build(:user, password: "aaaaaa", password_confirmation: "aaaaaa") }
+      subject { build :user, attributes }
 
-      it { expect(user).to be_valid }
+      let(:attributes) { { password: "a" * 6, password_confirmation: "a" * 6 } }
+
+      it { is_expected.to be_valid }
     end
 
     context 'passwordが5文字のとき' do
-      let(:user) { build(:user, password: "aaaaa", password_confirmation: "aaaaa") }
+      subject { build :user, attributes }
 
-      it { expect(user).to be_invalid }
+      let(:attributes) { { password: "a" * 5, password_confirmation: "a" * 5 } }
+
+      it { is_expected.to be_invalid }
     end
   end
 end
