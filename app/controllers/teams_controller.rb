@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_action :set_team, only: [:show, :edit, :update, :destroy]
+  before_action :set_team, only: [:show, :edit, :update]
 
   def index
     @teams = Team.all
@@ -31,11 +31,6 @@ class TeamsController < ApplicationController
     else
       render :edit
     end
-  end
-
-  def destroy
-    @team.destroy
-    redirect_to teams_url
   end
 
   private
