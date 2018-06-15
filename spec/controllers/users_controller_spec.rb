@@ -2,23 +2,23 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
   describe "#index" do
-    let(:user) { create(:user) }
-
     subject { get :index }
 
+    let(:user) { create(:user) }
+
     it do
-      is_expected.to have_http_status(:success)
+      is_expected.to have_http_status(:ok)
       expect(assigns(:users)).to contain_exactly user
     end
   end
 
   describe "#show" do
-    let(:user) { create(:user) }
-
     subject { get :show, params: { id: user.id } }
 
+    let(:user) { create(:user) }
+
     it do
-      is_expected.to have_http_status(:success)
+      is_expected.to have_http_status(:ok)
       expect(assigns(:user)).to eq user
     end
   end
@@ -27,18 +27,18 @@ RSpec.describe UsersController, type: :controller do
     subject { get :new }
 
     it do
-      is_expected.to have_http_status(:success)
+      is_expected.to have_http_status(:ok)
       expect(assigns(:user).class).to eq User
     end
   end
 
   describe "#edit" do
-    let(:user) { create(:user) }
-
     subject { get :edit, params: { id: user.id } }
 
+    let(:user) { create(:user) }
+
     it do
-      is_expected.to have_http_status(:success)
+      is_expected.to have_http_status(:ok)
       expect(assigns(:user)).to eq user
     end
   end
@@ -66,12 +66,15 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "#update" do
+    subject { proc { put :update, params: { id: user.id, user: user_params } } }
+
     let!(:user) { create(:user) }
 
     context 'with valid params' do
+      let(:user_params) { attributes_for :user, name: another_name }
+
       let(:current_name) { user.name }
       let(:another_name) { "foo" }
-      subject { proc { put :update, params: { id: user.id, user: { id: user.id, name: another_name } } } }
 
       it 'redirects to user page' do
         is_expected.to change { user.reload.name }.from(current_name).to(another_name)
@@ -80,8 +83,9 @@ RSpec.describe UsersController, type: :controller do
     end
 
     context 'with invalid prams' do
+      let(:user_params) { attributes_for :user, name: another_name }
+
       let(:another_name) { "" }
-      subject { proc { put :update, params: { id: user.id, user: { id: user.id, name: another_name } } } }
 
       it 'redirects to user page' do
         is_expected.to_not change { user.reload.name }
@@ -91,8 +95,9 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "#destroy" do
-    let!(:user) { create(:user) }
     subject { proc { delete :destroy, params: { id: user } } }
+
+    let!(:user) { create(:user) }
 
     it "destroy a user" do
       is_expected.to change { User.count }.from(1).to(0)
