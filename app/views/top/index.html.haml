@@ -1,6 +1,11 @@
 %h1 Top
-%p
-  =link_to '新規登録', new_user_path
 
-%p
-  =link_to 'ログイン'
+- if logged_in?
+  %p= link_to 'Users'
+
+  %p= link_to 'Log Out', logout_path
+
+- else
+  %p= link_to '新規登録', new_user_path
+
+  %p= link_to 'ログイン', login_path

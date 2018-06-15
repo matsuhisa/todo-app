@@ -6,9 +6,19 @@ RSpec.describe UsersController, type: :controller do
 
     let(:user) { create(:user) }
 
-    it do
-      is_expected.to have_http_status(:ok)
-      expect(assigns(:users)).to contain_exactly user
+    context 'ログインしている時' do
+      before { allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(true) }
+
+      it do
+        is_expected.to have_http_status(:ok)
+        expect(assigns(:users)).to contain_exactly user
+      end
+    end
+
+    context 'ログインしていない時' do
+      before { allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(false) }
+
+      it { is_expected.to redirect_to root_path }
     end
   end
 
@@ -95,7 +105,7 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "#destroy" do
-    subject { proc { delete :destroy, params: { id: user } } }
+    subject { proc { delete :destroy, params: { id: user.id } } }
 
     let!(:user) { create(:user) }
 

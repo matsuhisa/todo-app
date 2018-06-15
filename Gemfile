@@ -7,15 +7,14 @@ end
 
 gem 'bcrypt'
 gem 'coffee-rails', '~> 4.2'
+gem 'haml-rails', '~> 1.0'
 gem 'jbuilder', '~> 2.5'
 gem 'mysql2'
 gem 'puma', '~> 3.7'
 gem 'rails', '~> 5.1.6'
 gem 'sass-rails', '~> 5.0'
-gem 'sqlite3'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
-gem "haml-rails", "~> 1.0"
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -25,6 +24,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'selenium-webdriver'
+  gem 'sqlite3'
 end
 
 group :development do
