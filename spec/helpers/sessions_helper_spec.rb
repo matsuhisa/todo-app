@@ -43,13 +43,11 @@ RSpec.describe SessionsHelper, type: :helper do
   describe '#log_out' do
     let(:user) { create(:user) }
 
-    before do
-      helper.log_in(user)
-    end
+    before { helper.log_in(user) }
 
-    it {
+    it do
       expect(proc { helper.log_out }).to change { session[:user_id] }.from(user.id).to(nil).and \
         change { helper.current_user }.to(nil)
-    }
+    end
   end
 end
