@@ -66,11 +66,12 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "#update" do
+    subject { proc { put :update, params: { id: user.id, user: user_params } } }
+
     let!(:user) { create(:user) }
-    let(:user_params) { attributes_for :user, name: another_name }
 
     context 'with valid params' do
-      subject { proc { put :update, params: { id: user.id, user: user_params } } }
+      let(:user_params) { attributes_for :user, name: another_name }
 
       let(:current_name) { user.name }
       let(:another_name) { "foo" }
@@ -82,7 +83,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     context 'with invalid prams' do
-      subject { proc { put :update, params: { id: user.id, user: user_params } } }
+      let(:user_params) { attributes_for :user, name: another_name }
 
       let(:another_name) { "" }
 
