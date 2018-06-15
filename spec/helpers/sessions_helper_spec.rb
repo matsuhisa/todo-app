@@ -48,8 +48,8 @@ RSpec.describe SessionsHelper, type: :helper do
     end
 
     it {
-      expect(proc{helper.log_out}).to change { session[:user_id] }.from(user.id).to(nil)
-      expect(log_out).to be_nil
+      expect( proc { helper.log_out } ).to change { session[:user_id] }.from(user.id).to(nil).and \
+        change { helper.current_user }.to(nil)
     }
   end
 end
