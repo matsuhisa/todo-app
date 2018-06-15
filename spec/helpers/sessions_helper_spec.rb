@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe SessionsHelper, type: :helper do
   describe '#login' do
-    subject { helper.log_in(user) }
+    subject { proc { helper.log_in(user) } }
 
     let(:user) { create(:user) }
 
-    it { is_expected.to eq user.id }
+    it { is_expected.to change { session[:user_id] }.from(nil).to(user.id) }
   end
 
   describe '#current_user' do
@@ -41,18 +41,15 @@ RSpec.describe SessionsHelper, type: :helper do
   end
 
   describe '#log_out' do
-    subject { helper.log_out }
-
     let(:user) { create(:user) }
 
     before do
       helper.log_in(user)
-      helper.log_out
     end
 
     it {
-      expect(session[:user_id]).to be_nil
-      is_expected.to be_nil
+      expect(proc{helper.log_out}).to change { session[:user_id] }.from(user.id).to(nil)
+      expect(log_out).to be_nil
     }
   end
 end
