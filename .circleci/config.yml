@@ -30,7 +30,9 @@ jobs:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
+      - run:
+          name: Wait a booting mysql
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
