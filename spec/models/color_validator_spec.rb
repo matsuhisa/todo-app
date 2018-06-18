@@ -43,7 +43,7 @@ RSpec.describe ColorValidator do
     it { is_expected.to be_falsey }
   end
 
-  context "when it's not a color code is invalid"
+  context "when it's not a color code is invalid" do
     let(:color) { 'white' }
 
     it { is_expected.to be_falsey }
