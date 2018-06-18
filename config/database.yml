@@ -16,8 +16,7 @@ test:
   database: todo_app_test
   username: root
   password:
-  socket: /tmp/mysql.sock
-
+  host: 127.0.0.1
 production:
   <<: *default
   database: todo_app
