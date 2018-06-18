@@ -4,11 +4,18 @@ RSpec.describe ColorValidator do
   subject { model_class.new(color).valid? }
 
   let(:model_class) do
-    Struct.new(:color) do
+    Class.new() do
       include ActiveModel::Validations
+      attr_accessor :color
+
+      def initialize(color)
+        @color = color
+      end
+
       def self.name
         "ColorModel"
       end
+
       validates :color, color: true
     end
   end
