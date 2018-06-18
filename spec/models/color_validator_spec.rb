@@ -4,7 +4,7 @@ RSpec.describe ColorValidator do
   subject { model_class.new(color).valid? }
 
   let(:model_class) do
-    Class.new() do
+    Class.new do
       include ActiveModel::Validations
       attr_accessor :color
 
