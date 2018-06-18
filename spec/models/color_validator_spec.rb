@@ -31,8 +31,20 @@ RSpec.describe ColorValidator do
     it { is_expected.to be_falsey }
   end
 
+  context "when color-code without # is invalid" do
+    let(:color) { 'ffffff' }
+
+    it { is_expected.to be_falsey }
+  end
+
   context "when color-code with not allowed characters is invalid" do
     let(:color) { '#TTT' }
+
+    it { is_expected.to be_falsey }
+  end
+
+  context "when it's not a color code is invalid"
+    let(:color) { 'white' }
 
     it { is_expected.to be_falsey }
   end
