@@ -23,6 +23,7 @@ group :development, :test do
   gem 'pry'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
+  gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'sqlite3'
 end
