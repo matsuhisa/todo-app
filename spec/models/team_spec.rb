@@ -39,5 +39,17 @@ RSpec.describe Team, type: :model do
 
       it { is_expected.to be_invalid }
     end
+
+    context 'カラーコードがテキストな時' do
+      let(:attributes) { { color: "white" } }
+
+      it { is_expected.to be_invalid }
+    end
+
+    context 'カラーコードが不正な時' do
+      let(:attributes) { { color: "#fffffff" } }
+
+      it { is_expected.to be_invalid }
+    end
   end
 end
