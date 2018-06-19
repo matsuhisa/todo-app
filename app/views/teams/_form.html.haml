@@ -1,0 +1,19 @@
+= form_for @team do |f|
+  - if @team.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@team.errors.count, "error")} prohibited this team from being saved:"
+      %ul
+        - @team.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :name
+    = f.text_field :name
+
+  .field
+    = f.label :color
+    = f.select :color, [['red', '#ef5b3e'], ['pink', '#ff658b'], ['orange', '#ff9933'], 
+    ['yellow', '#eec400'], ['blue', '#40bbef'], ['green', '#2fc3a7'], ['black', '#333333']]
+
+  .actions
+    = f.submit 'チームを登録する'
