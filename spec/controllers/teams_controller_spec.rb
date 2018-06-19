@@ -86,11 +86,10 @@ RSpec.describe TeamsController, type: :controller do
   describe "#update" do
     subject { proc { put :update, params: { id: team.id, team: team_params } } }
 
-    let!(:team) { create(:team) }
+    let(:team) { create(:team) }
 
     context 'with valid params' do
       let(:team_params) { attributes_for :team, name: another_name }
-
       let(:current_name) { team.name }
       let(:another_name) { "みんなのウェディングチーム" }
 
@@ -102,7 +101,6 @@ RSpec.describe TeamsController, type: :controller do
 
     context 'with invalid prams' do
       let(:team_params) { attributes_for :team, name: another_name }
-
       let(:another_name) { "" }
 
       it 'render to team editting page' do
