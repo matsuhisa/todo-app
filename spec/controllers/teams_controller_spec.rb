@@ -86,21 +86,19 @@ RSpec.describe TeamsController, type: :controller do
   describe "#update" do
     subject { proc { put :update, params: { id: team.id, team: team_params } } }
 
+    let(:team_params) { attributes_for :team, name: another_name }
     let(:team) { create(:team) }
 
     context 'with valid params' do
-      let(:team_params) { attributes_for :team, name: another_name }
-      let(:current_name) { team.name }
       let(:another_name) { "みんなのウェディングチーム" }
 
       it 'redirects to team page' do
-        is_expected.to change { team.reload.name }.from(current_name).to(another_name)
+        is_expected.to change { team.reload.name }.to(another_name)
         expect(response).to redirect_to team
       end
     end
 
     context 'with invalid prams' do
-      let(:team_params) { attributes_for :team, name: another_name }
       let(:another_name) { "" }
 
       it 'render to team editting page' do
