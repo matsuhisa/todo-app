@@ -6,4 +6,7 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }
 
   has_secure_password
+
+  has_many :user_teams
+  has_many :teams, through: :user_teams
 end
