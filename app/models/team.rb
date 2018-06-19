@@ -1,4 +1,4 @@
 class Team < ApplicationRecord
   validates :name, presence: true, length: { maximum: 100 }
-  validates :color, presence: true
+  validates :color, presence: true, color: :true
 end
