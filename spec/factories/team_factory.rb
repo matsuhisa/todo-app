@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :team do
-    sequence(:name) { |n| "TEST_TEAM#{n}" }
+    name 'みんなのウェディング'
     color '#ffffff'
   end
 end

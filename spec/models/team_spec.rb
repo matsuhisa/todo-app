@@ -16,6 +16,24 @@ RSpec.describe Team, type: :model do
       it { is_expected.to be_invalid }
     end
 
+    context 'nameが101文字の時' do
+      let(:attributes) { { name: "a" * 101 } }
+
+      it { is_expected.to be_invalid }
+    end
+
+    context 'nameが100文字の時' do
+      let(:attributes) { { name: "a" * 100 } }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'nameが99文字の時' do
+      let(:attributes) { { name: "a" * 99 } }
+
+      it { is_expected.to be_valid }
+    end
+
     context 'colorが入力されてない時' do
       let(:attributes) { { color: "" } }
 
