@@ -92,7 +92,7 @@ RSpec.describe TeamsController, type: :controller do
       let(:team_params) { attributes_for :team, name: another_name }
 
       let(:current_name) { team.name }
-      let(:another_name) { "みんなのウェディング" }
+      let(:another_name) { "みんなのウェディングチーム" }
 
       it 'redirects to team page' do
         is_expected.to change { team.reload.name }.from(current_name).to(another_name)
