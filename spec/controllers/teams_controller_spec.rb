@@ -13,13 +13,22 @@ RSpec.describe TeamsController, type: :controller do
   end
 
   describe "#show" do
-    subject { get :show, params: { id: team.id } }
+    subject { get :show, params: { id: team_id } }
 
-    let(:team) { create(:team) }
+    context 'when id is valid' do
+      let(:team) { create(:team) }
+      let(:team_id) { team.id }
 
-    it do
-      is_expected.to have_http_status(:ok)
-      expect(assigns(:team)).to eq team
+      it do
+        is_expected.to have_http_status(:ok)
+        expect(assigns(:team)).to eq team
+      end
+    end
+
+    context 'when id is invalid' do
+      let(:team_id) { 'aaa' }
+
+      it { expect{subject}.to raise_error ActiveRecord::RecordNotFound }
     end
   end
 
@@ -33,13 +42,22 @@ RSpec.describe TeamsController, type: :controller do
   end
 
   describe "#edit" do
-    subject { get :edit, params: { id: team.id } }
+    subject { get :edit, params: { id: team_id } }
 
-    let(:team) { create(:team) }
+    context 'when id is valid' do
+      let(:team) { create(:team) }
+      let(:team_id) { team.id }
 
-    it do
-      is_expected.to have_http_status(:ok)
-      expect(assigns(:team)).to eq team
+      it do
+        is_expected.to have_http_status(:ok)
+        expect(assigns(:team)).to eq team
+      end
+    end
+
+    context 'when id is invalid' do
+      let(:team_id) { 'aaa' }
+
+      it { expect{subject}.to raise_error ActiveRecord::RecordNotFound }
     end
   end
 
@@ -87,7 +105,7 @@ RSpec.describe TeamsController, type: :controller do
 
       let(:another_name) { "" }
 
-      it 'redirects to team page' do
+      it 'render to team editting page' do
         is_expected.to_not change { team.reload.name }
         expect(response).to render_template :edit
       end
