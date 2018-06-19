@@ -21,8 +21,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    decorator = CreateUserAndTeam.new(@user)
 
-    if @user.save
+    if decorator.save
+    # if @user.save
+      # team = Team.new({ name: @user.name, color: '#ffffff' })
+      # team.users  << @user
+      # team.save
       log_in @user
       redirect_to @user, notice: 'User was successfully created.'
     else

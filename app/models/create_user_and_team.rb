@@ -1,0 +1,2 @@
+class CreateUserAndTeam < ApplicationRecord
+end
