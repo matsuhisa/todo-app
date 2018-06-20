@@ -7,7 +7,7 @@ RSpec.describe UsersController, type: :controller do
     let(:user) { create(:user) }
 
     context 'ログインしている時' do
-      before { allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(true) }
+      before { allow_any_instance_of(ApplicationController).to receive(:logged_in?).and_return(true) }
 
       it do
         is_expected.to have_http_status(:ok)
@@ -16,7 +16,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     context 'ログインしていない時' do
-      before { allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(false) }
+      before { allow_any_instance_of(ApplicationController).to receive(:logged_in?).and_return(false) }
 
       it { is_expected.to redirect_to root_path }
     end
