@@ -1,12 +1,9 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :require_sign_in, except: [:new, :create]
 
   def index
-    if logged_in?
       @users = User.all
-    else
-      redirect_to root_path
-    end
   end
 
   def show
