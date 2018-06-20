@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe TeamsController, type: :controller do
+  let!(:user) { create :user }
+  
+  before do
+    session[:user_id] = user.id
+  end
+
   describe "#index" do
     subject { get :index }
 

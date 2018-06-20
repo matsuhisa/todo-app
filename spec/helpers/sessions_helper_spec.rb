@@ -15,8 +15,7 @@ RSpec.describe SessionsHelper, type: :helper do
     before { helper.log_in(user) }
 
     it do
-      expect(proc { helper.log_out }).to change { session[:user_id] }.from(user.id).to(nil).and \
-        change { current_user }.to(nil)
+      expect(proc { helper.log_out }).to change { session[:user_id] }.from(user.id).to(nil)
     end
   end
 end

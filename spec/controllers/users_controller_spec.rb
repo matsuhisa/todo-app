@@ -7,7 +7,7 @@ RSpec.describe UsersController, type: :controller do
     let(:user) { create(:user) }
 
     context 'ログインしている時' do
-      before { allow_any_instance_of(ApplicationController).to receive(:logged_in?).and_return(true) }
+      before { session[:user_id] = user.id }
 
       it do
         is_expected.to have_http_status(:ok)
@@ -16,8 +16,6 @@ RSpec.describe UsersController, type: :controller do
     end
 
     context 'ログインしていない時' do
-      before { allow_any_instance_of(ApplicationController).to receive(:logged_in?).and_return(false) }
-
       it { is_expected.to redirect_to root_path }
     end
   end
@@ -27,9 +25,17 @@ RSpec.describe UsersController, type: :controller do
 
     let(:user) { create(:user) }
 
-    it do
-      is_expected.to have_http_status(:ok)
-      expect(assigns(:user)).to eq user
+    context 'ログインしている時' do
+      before { session[:user_id] = user.id }
+
+      it do
+        is_expected.to have_http_status(:ok)
+        expect(assigns(:user)).to eq user
+      end
+    end
+
+    context 'ログインしていない時' do
+      it { is_expected.to redirect_to root_path }
     end
   end
 
@@ -47,9 +53,16 @@ RSpec.describe UsersController, type: :controller do
 
     let(:user) { create(:user) }
 
-    it do
-      is_expected.to have_http_status(:ok)
-      expect(assigns(:user)).to eq user
+    context 'ログインしている時' do
+      before { session[:user_id] = user.id }
+      it do
+        is_expected.to have_http_status(:ok)
+        expect(assigns(:user)).to eq user
+      end
+    end
+
+    context 'ログインしていない時' do
+      it { is_expected.to redirect_to root_path }
     end
   end
 
@@ -80,26 +93,30 @@ RSpec.describe UsersController, type: :controller do
 
     let!(:user) { create(:user) }
 
-    context 'with valid params' do
-      let(:user_params) { attributes_for :user, name: another_name }
+    context 'ログインしている時' do
+      before { session[:user_id] = user.id }
 
-      let(:current_name) { user.name }
-      let(:another_name) { "foo" }
+      context 'with valid params' do
+        let(:user_params) { attributes_for :user, name: another_name }
 
-      it 'redirects to user page' do
-        is_expected.to change { user.reload.name }.from(current_name).to(another_name)
-        expect(response).to redirect_to user
+        let(:current_name) { user.name }
+        let(:another_name) { "foo" }
+
+        it 'redirects to user page' do
+          is_expected.to change { user.reload.name }.from(current_name).to(another_name)
+          expect(response).to redirect_to user
+        end
       end
-    end
 
-    context 'with invalid prams' do
-      let(:user_params) { attributes_for :user, name: another_name }
+      context 'with invalid prams' do
+        let(:user_params) { attributes_for :user, name: another_name }
 
-      let(:another_name) { "" }
+        let(:another_name) { "" }
 
-      it 'redirects to user page' do
-        is_expected.to_not change { user.reload.name }
-        expect(response).to render_template :edit
+        it 'redirects to user page' do
+          is_expected.to_not change { user.reload.name }
+          expect(response).to render_template :edit
+        end
       end
     end
   end
@@ -108,6 +125,8 @@ RSpec.describe UsersController, type: :controller do
     subject { proc { delete :destroy, params: { id: user.id } } }
 
     let!(:user) { create(:user) }
+
+    before { session[:user_id] = user.id }
 
     it "destroy a user" do
       is_expected.to change { User.count }.from(1).to(0)
