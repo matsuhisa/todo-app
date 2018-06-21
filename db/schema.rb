@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20180613045409) do
     t.text "description", null: false
     t.integer "user_id", null: false
     t.integer "team_id", null: false
-    t.integer "state", null: false
+    t.integer "state", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_tasks_on_team_id"
