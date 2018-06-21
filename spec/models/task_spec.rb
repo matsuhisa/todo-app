@@ -9,5 +9,47 @@ RSpec.describe Task, type: :model do
 
       it { is_expected.to be_valid }
     end
+
+    context 'titleが存在しないとき' do
+      let(:attributes) { { title: '' } }
+
+      it { is_expected.to be_invalid }
+    end
+
+    context 'titleが100文字のとき' do
+      let(:attributes) { { title: 'a' * 100 } }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'titleが101文字のとき' do
+      let(:attributes) { { title: 'a' * 101 } }
+
+      it { is_expected.to be_invalid }
+    end
+
+    context 'descriptionが存在しないとき' do
+      let(:attributes) { { description: '' } }
+
+      it { is_expected.to be_invalid }
+    end
+
+    context 'descriptionが10000文字のとき' do
+      let(:attributes) { { description: 'a' * 10000 } }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'descriptionが10001文字のとき' do
+      let(:attributes) { { description: 'a' * 10001 } }
+
+      it { is_expected.to be_invalid }
+    end
+
+    context 'stateが存在しないとき' do
+      let(:attributes) { { state: '' } }
+
+      it { is_expected.to be_invalid }
+    end
   end
 end
