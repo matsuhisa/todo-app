@@ -7,4 +7,6 @@ class Team < ApplicationRecord
 
   DEFAULT_COLORS = { red: '#ef5b3e', pink: '#ff658b', orange: '#ff9933',
   yellow: '#eec400', blue: '#40bbef', green: '#2fc3a7', black: '#333333' }
+
+  DEFAULT_COLOR = DEFAULT_COLORS[:green]
 end
