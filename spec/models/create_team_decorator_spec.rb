@@ -6,15 +6,15 @@ RSpec.describe CreateTeamDecorator, type: :model do
     let(:user_with_team_create) { CreateTeamDecorator.new(user: user) }
 
     context 'ユーザの保存とチームの保存に成功したとき' do
-      subject { proc { user_with_team_create.save } }
+      subject { user_with_team_create.save }
 
       let(:attributes) { {} }
 
       it do
-        expect(user_with_team_create.save).to be_truthy
-        is_expected.to change { Team.count }.by(1).and \
+        expect{subject}.to change { Team.count }.by(1).and \
           change { User.count }.by(1).and \
           change { UserTeam.count }.by(1)
+        is_expected.to be_truthy
       end
     end
 
