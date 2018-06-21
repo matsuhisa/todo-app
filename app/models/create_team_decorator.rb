@@ -1,4 +1,4 @@
-class CreateUserDecorator
+class CreateTeamDecorator
   include ActiveModel::Model
   define_model_callbacks :save, only: :after
   after_save :create_team

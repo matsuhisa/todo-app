@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    user_with_team_create = CreateUserDecorator.new(user: @user)
+    user_with_team_create = CreateTeamDecorator.new(user: @user)
 
     if user_with_team_create.save
       log_in @user

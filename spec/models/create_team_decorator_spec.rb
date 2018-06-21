@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe CreateUserDecorator, type: :model do
+RSpec.describe CreateTeamDecorator, type: :model do
   describe '#save' do
     let(:user) { build :user, attributes }
-    let(:user_with_team_create) { CreateUserDecorator.new(user: user) }
+    let(:user_with_team_create) { CreateTeamDecorator.new(user: user) }
 
     context 'ユーザの保存とチームの保存に成功したとき' do
       subject { proc { user_with_team_create.save } }
@@ -22,7 +22,7 @@ RSpec.describe CreateUserDecorator, type: :model do
       subject { user_with_team_create.save }
 
       let(:attributes) { {} }
-      
+
       before { allow_any_instance_of(Team).to receive(:save!).and_raise() }
 
       it { is_expected.to be_falsey }
