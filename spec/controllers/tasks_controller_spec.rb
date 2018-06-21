@@ -37,7 +37,7 @@ RSpec.describe TasksController, type: :controller do
 
     it do
       is_expected.to have_http_status(:ok)
-      expect(assigns(:task).class).to eq task
+      expect(assigns(:task).class).to eq Task
     end
   end
 
@@ -48,8 +48,8 @@ RSpec.describe TasksController, type: :controller do
       let(:task_params) { attributes_for :task }
 
       it "creates a new task" do
-        is_expected.to change { task.count }.from(0).to(1)
-        expect(response).to redirect_to(task.last)
+        is_expected.to change { Task.count }.from(0).to(1)
+        expect(response).to redirect_to(Task.last)
       end
     end
 
@@ -57,7 +57,7 @@ RSpec.describe TasksController, type: :controller do
       let(:task_params) { attributes_for :task, title: "" }
 
       it do
-        is_expected.not_to change { task.count }
+        is_expected.not_to change { Task.count }
         expect(response).to render_template :new
       end
     end
