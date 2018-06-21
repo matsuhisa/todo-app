@@ -12,9 +12,6 @@ class TasksController < ApplicationController
     @task = Task.new
   end
 
-  def edit
-  end
-
   def create
     @task = Task.new(task_params)
 
@@ -24,19 +21,6 @@ class TasksController < ApplicationController
       render :new
     end
   end
-
-  def update
-    if @task.update(task_params)
-      redirect_to @task, notice: 'task was successfully updated.'
-    else
-      render :edit
-    end
-  end
-
-  # def destroy
-  #   @task.destroy
-  #   redirect_to tasks_url, notice: 'Task was successfully destroyed.'
-  # end
 
   private
 

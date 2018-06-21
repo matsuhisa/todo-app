@@ -9,7 +9,6 @@
       %th Team_ID
       %th State
       %th
-      %th
 
   %tbody
     - @tasks.each do |task|
@@ -20,8 +19,6 @@
         %td= task.team_id
         %td= task.state
         %td= link_to 'Show', task
-        %td= link_to 'Edit', edit_task_path(task)
-        -# %td= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
