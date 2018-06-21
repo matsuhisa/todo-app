@@ -11,7 +11,7 @@ RSpec.describe CreateTeamDecorator, type: :model do
       let(:attributes) { {} }
 
       it do
-        is_expected.to be_truthy
+        expect(user_with_team_create.save).to be_truthy
         is_expected.to change { Team.count }.by(1).and \
           change { User.count }.by(1).and \
           change { UserTeam.count }.by(1)
