@@ -25,7 +25,10 @@ RSpec.describe CreateTeamDecorator, type: :model do
 
       before { allow_any_instance_of(Team).to receive(:save!).and_raise() }
 
-      it { is_expected.to be_falsey }
+      it do
+        expect{ subject }.not_to change { User.count }
+        is_expected.to be_falsey
+      end
     end
 
     context 'ユーザの保存に失敗したとき' do
