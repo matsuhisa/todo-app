@@ -12,9 +12,9 @@ RSpec.describe CreateTeamDecorator, type: :model do
 
       it do
         is_expected.to be_truthy
-        is_expected.to change { Team.count }.from(0).to(1).and \
-          change { User.count }.from(0).to(1).and \
-          change { UserTeam.count }.from(0).to(1)
+        is_expected.to change { Team.count }.by(1).and \
+          change { User.count }.by(1).and \
+          change { UserTeam.count }.by(1)
       end
     end
 

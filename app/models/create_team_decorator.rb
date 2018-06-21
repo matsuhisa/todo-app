@@ -10,8 +10,8 @@ class CreateTeamDecorator
         user.save!
       end
     end
-    rescue
-      false
+  rescue
+    false
   end
 
   private
