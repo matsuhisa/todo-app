@@ -89,12 +89,13 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "#update" do
-    subject { proc { put :update, params: { id: user.id, user: user_params } } }
+    subject { put :update, params: { id: user.id, user: user_params } }
 
     let!(:user) { create(:user) }
 
     context 'ログインしている時' do
       before { session[:user_id] = user.id }
+
 
       context 'with valid params' do
         let(:user_params) { attributes_for :user, name: another_name }
@@ -103,8 +104,8 @@ RSpec.describe UsersController, type: :controller do
         let(:another_name) { "foo" }
 
         it 'redirects to user page' do
-          is_expected.to change { user.reload.name }.from(current_name).to(another_name)
-          expect(response).to redirect_to user
+          expect{ subject }.to change { user.reload.name }.from(current_name).to(another_name)
+          is_expected.to redirect_to user
         end
       end
 
@@ -114,23 +115,35 @@ RSpec.describe UsersController, type: :controller do
         let(:another_name) { "" }
 
         it 'redirects to user page' do
-          is_expected.to_not change { user.reload.name }
-          expect(response).to render_template :edit
+          expect{ subject }.to_not change { user.reload.name }
+          is_expected.to render_template :edit
         end
       end
+    end
+
+    context 'ログインしていない時' do
+      let(:user_params) { {} }
+
+      it { is_expected.to redirect_to root_path }
     end
   end
 
   describe "#destroy" do
-    subject { proc { delete :destroy, params: { id: user.id } } }
+    subject { delete :destroy, params: { id: user.id } }
 
     let!(:user) { create(:user) }
 
-    before { session[:user_id] = user.id }
+    context 'ログインしている時' do
+      before { session[:user_id] = user.id }
 
-    it "destroy a user" do
-      is_expected.to change { User.count }.from(1).to(0)
-      expect(response).to redirect_to users_url
+      it "destroy a user" do
+        expect{ subject }.to change { User.count }.from(1).to(0)
+        is_expected.to redirect_to users_url
+      end
+    end
+
+    context 'ログインしていない時' do
+      it { is_expected.to redirect_to root_path }
     end
   end
 end
