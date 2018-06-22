@@ -137,7 +137,7 @@ RSpec.describe UsersController, type: :controller do
       before { log_in user }
 
       it "destroy a user" do
-        expect{ subject }.to change { User.count }.by(1)
+        expect{ subject }.to change { User.count }.by(-1)
         is_expected.to redirect_to users_url
       end
     end
