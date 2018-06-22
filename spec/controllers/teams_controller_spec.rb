@@ -25,7 +25,7 @@ RSpec.describe TeamsController, type: :controller do
     subject { get :show, params: { id: team_id } }
 
     context 'ユーザーがログインしている時' do
-      before { session[:user_id] = user.id }
+      before { log_in user }
 
       let(:user) { create :user }
 
@@ -58,7 +58,7 @@ RSpec.describe TeamsController, type: :controller do
     subject { get :new }
 
     context 'ユーザーがログインしている時' do
-      before { session[:user_id] = user.id }
+      before { log_in user }
 
       let(:user) { create :user }
 
@@ -77,7 +77,7 @@ RSpec.describe TeamsController, type: :controller do
     subject { get :edit, params: { id: team_id } }
 
     context 'ユーザーがログインしている時' do
-      before { session[:user_id] = user.id }
+      before { log_in user }
 
       let(:user) { create :user }
 
@@ -110,7 +110,7 @@ RSpec.describe TeamsController, type: :controller do
     subject { post :create, params: { team: team_params } }
 
     context 'ユーザーがログインしている時' do
-      before { session[:user_id] = user.id }
+      before { log_in user }
 
       let(:user) { create :user }
 
@@ -118,7 +118,7 @@ RSpec.describe TeamsController, type: :controller do
         let(:team_params) { attributes_for :team }
 
         it "creates a new Team" do
-          expect{ subject }.to change { Team.count }.from(0).to(1)
+          expect{ subject }.to change { Team.count }.by(1)
           is_expected.to redirect_to(Team.last)
         end
       end
@@ -146,7 +146,7 @@ RSpec.describe TeamsController, type: :controller do
     let(:team) { create(:team) }
 
     context 'ユーザーがログインしている時' do
-      before { session[:user_id] = user.id }
+      before { log_in user }
 
       let(:user) { create :user }
       let(:team_params) { attributes_for :team, name: another_name }

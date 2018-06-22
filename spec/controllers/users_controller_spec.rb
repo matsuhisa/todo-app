@@ -7,7 +7,7 @@ RSpec.describe UsersController, type: :controller do
     let(:user) { create(:user) }
 
     context 'ログインしている時' do
-      before { session[:user_id] = user.id }
+      before { log_in user }
 
       it do
         is_expected.to have_http_status(:ok)
@@ -26,7 +26,7 @@ RSpec.describe UsersController, type: :controller do
     let(:user) { create(:user) }
 
     context 'ログインしている時' do
-      before { session[:user_id] = user.id }
+      before { log_in user }
 
       it do
         is_expected.to have_http_status(:ok)
@@ -54,7 +54,7 @@ RSpec.describe UsersController, type: :controller do
     let(:user) { create(:user) }
 
     context 'ログインしている時' do
-      before { session[:user_id] = user.id }
+      before { log_in user }
       it do
         is_expected.to have_http_status(:ok)
         expect(assigns(:user)).to eq user
@@ -73,7 +73,7 @@ RSpec.describe UsersController, type: :controller do
       let(:user_params) { attributes_for :user }
 
       it "creates a new User" do
-        is_expected.to change { User.count }.from(0).to(1)
+        is_expected.to change { User.count }.by(1)
         expect(response).to redirect_to(User.last)
       end
     end
@@ -94,7 +94,7 @@ RSpec.describe UsersController, type: :controller do
     let(:user) { create(:user) }
 
     context 'ログインしている時' do
-      before { session[:user_id] = user.id }
+      before { log_in user }
 
 
       context 'with valid params' do
@@ -134,10 +134,10 @@ RSpec.describe UsersController, type: :controller do
     let(:user) { create(:user) }
 
     context 'ログインしている時' do
-      before { session[:user_id] = user.id }
+      before { log_in user }
 
       it "destroy a user" do
-        expect{ subject }.to change { User.count }.from(1).to(0)
+        expect{ subject }.to change { User.count }.by(1)
         is_expected.to redirect_to users_url
       end
     end
