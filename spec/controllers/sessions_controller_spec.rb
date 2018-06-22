@@ -9,7 +9,7 @@ RSpec.describe SessionsController, type: :controller do
 
   describe "#create" do
     subject { post :create, params: { session: user_params } }
-    let!(:user) { create(:user) }
+    let(:user) { create(:user) }
 
     context 'emailとpasswordが有効なとき' do
       let(:user_params) { { email: user.email, password: user.password } }

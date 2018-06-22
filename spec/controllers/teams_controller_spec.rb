@@ -4,107 +4,176 @@ RSpec.describe TeamsController, type: :controller do
   describe "#index" do
     subject { get :index }
 
-    let(:team) { create(:team) }
+    context 'ユーザーがログインしている時' do
+      before { log_in user }
 
-    it do
-      is_expected.to have_http_status(:ok)
-      expect(assigns(:teams)).to contain_exactly team
+      let(:user) { create :user }
+      let(:team) { create(:team) }
+
+      it do
+        is_expected.to have_http_status(:ok)
+        expect(assigns(:teams)).to contain_exactly team
+      end
+    end
+
+    context 'ユーザーがログインしていない時' do
+      it { is_expected.to redirect_to root_path }
     end
   end
 
   describe "#show" do
     subject { get :show, params: { id: team_id } }
 
-    context 'when id is valid' do
-      let(:team) { create(:team) }
-      let(:team_id) { team.id }
+    context 'ユーザーがログインしている時' do
+      before { log_in user }
 
-      it do
-        is_expected.to have_http_status(:ok)
-        expect(assigns(:team)).to eq team
+      let(:user) { create :user }
+
+      context 'when id is valid' do
+        let(:team) { create(:team) }
+        let(:team_id) { team.id }
+
+        it do
+          is_expected.to have_http_status(:ok)
+          expect(assigns(:team)).to eq team
+        end
+      end
+
+      context 'when id is invalid' do
+        let(:team_id) { 'aaa' }
+
+        it { expect { subject }.to raise_error ActiveRecord::RecordNotFound }
       end
     end
 
-    context 'when id is invalid' do
-      let(:team_id) { 'aaa' }
+    context 'ユーザーがログインしていない時' do
+      let(:team) { create(:team) }
+      let(:team_id) { team.id }
 
-      it { expect{subject}.to raise_error ActiveRecord::RecordNotFound }
+      it { is_expected.to redirect_to root_path }
     end
   end
 
   describe "#new" do
     subject { get :new }
 
-    it do
-      is_expected.to have_http_status(:ok)
-      expect(assigns(:team).class).to eq Team
+    context 'ユーザーがログインしている時' do
+      before { log_in user }
+
+      let(:user) { create :user }
+
+      it do
+        is_expected.to have_http_status(:ok)
+        expect(assigns(:team).class).to eq Team
+      end
+    end
+
+    context 'ユーザーがログインしていない時' do
+      it { is_expected.to redirect_to root_path }
     end
   end
 
   describe "#edit" do
     subject { get :edit, params: { id: team_id } }
 
-    context 'when id is valid' do
-      let(:team) { create(:team) }
-      let(:team_id) { team.id }
+    context 'ユーザーがログインしている時' do
+      before { log_in user }
 
-      it do
-        is_expected.to have_http_status(:ok)
-        expect(assigns(:team)).to eq team
+      let(:user) { create :user }
+
+      context 'when id is valid' do
+        let(:team) { create(:team) }
+        let(:team_id) { team.id }
+
+        it do
+          is_expected.to have_http_status(:ok)
+          expect(assigns(:team)).to eq team
+        end
+      end
+
+      context 'when id is invalid' do
+        let(:team_id) { 'aaa' }
+
+        it { expect { subject }.to raise_error ActiveRecord::RecordNotFound }
       end
     end
 
-    context 'when id is invalid' do
-      let(:team_id) { 'aaa' }
+    context 'ユーザーがログインしていない時' do
+      let(:team) { create(:team) }
+      let(:team_id) { team.id }
 
-      it { expect{subject}.to raise_error ActiveRecord::RecordNotFound }
+      it { is_expected.to redirect_to root_path }
     end
   end
 
   describe "#create" do
-    subject { proc { post :create, params: { team: team_params } } }
+    subject { post :create, params: { team: team_params } }
 
-    context "with valid params" do
-      let(:team_params) { attributes_for :team }
+    context 'ユーザーがログインしている時' do
+      before { log_in user }
 
-      it "creates a new Team" do
-        is_expected.to change { Team.count }.from(0).to(1)
-        expect(response).to redirect_to(Team.last)
+      let(:user) { create :user }
+
+      context "with valid params" do
+        let(:team_params) { attributes_for :team }
+
+        it "creates a new Team" do
+          expect { subject }.to change { Team.count }.by(1)
+          is_expected.to redirect_to(Team.last)
+        end
+      end
+
+      context "with invalid params" do
+        let(:team_params) { attributes_for :team, name: "" }
+
+        it do
+          expect { subject }.not_to change { Team.count }
+          is_expected.to render_template :new
+        end
       end
     end
 
-    context "with invalid params" do
-      let(:team_params) { attributes_for :team, name: "" }
+    context 'ユーザーがログインしていない時' do
+      let(:team_params) { attributes_for :team }
 
-      it do
-        is_expected.not_to change { Team.count }
-        expect(response).to render_template :new
-      end
+      it { is_expected.to redirect_to root_path }
     end
   end
 
   describe "#update" do
-    subject { proc { put :update, params: { id: team.id, team: team_params } } }
+    subject { put :update, params: { id: team.id, team: team_params } }
 
-    let(:team_params) { attributes_for :team, name: another_name }
     let(:team) { create(:team) }
 
-    context 'with valid params' do
-      let(:another_name) { "みんなのウェディングチーム" }
+    context 'ユーザーがログインしている時' do
+      before { log_in user }
 
-      it 'redirects to team page' do
-        is_expected.to change { team.reload.name }.to(another_name)
-        expect(response).to redirect_to team
+      let(:user) { create :user }
+      let(:team_params) { attributes_for :team, name: another_name }
+
+      context 'with valid params' do
+        let(:another_name) { "みんなのウェディングチーム" }
+
+        it 'redirects to team page' do
+          expect { subject }.to change { team.reload.name }.to(another_name)
+          is_expected.to redirect_to team
+        end
+      end
+
+      context 'with invalid prams' do
+        let(:another_name) { "" }
+
+        it 'render to team editting page' do
+          expect { subject }.to_not change { team.reload.name }
+          is_expected.to render_template :edit
+        end
       end
     end
 
-    context 'with invalid prams' do
-      let(:another_name) { "" }
+    context 'ユーザーがログインしていない時' do
+      let(:team_params) { attributes_for :team }
 
-      it 'render to team editting page' do
-        is_expected.to_not change { team.reload.name }
-        expect(response).to render_template :edit
-      end
+      it { is_expected.to redirect_to root_path }
     end
   end
 end
