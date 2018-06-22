@@ -12,8 +12,7 @@
 
   .field
     = f.label :color
-    = f.select :color, [['red', '#ef5b3e'], ['pink', '#ff658b'], ['orange', '#ff9933'], 
-    ['yellow', '#eec400'], ['blue', '#40bbef'], ['green', '#2fc3a7'], ['black', '#333333']]
+    = f.select :color, Team::DEFAULT_COLORS
 
   .actions
     = f.submit 'チームを登録する'
