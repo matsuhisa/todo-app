@@ -91,7 +91,7 @@ RSpec.describe UsersController, type: :controller do
   describe "#update" do
     subject { put :update, params: { id: user.id, user: user_params } }
 
-    let!(:user) { create(:user) }
+    let(:user) { create(:user) }
 
     context 'ログインしている時' do
       before { session[:user_id] = user.id }
@@ -131,7 +131,7 @@ RSpec.describe UsersController, type: :controller do
   describe "#destroy" do
     subject { delete :destroy, params: { id: user.id } }
 
-    let!(:user) { create(:user) }
+    let(:user) { create(:user) }
 
     context 'ログインしている時' do
       before { session[:user_id] = user.id }

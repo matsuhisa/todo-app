@@ -1,6 +1,5 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: [:show, :edit, :update]
-  before_action :require_login
 
   def index
     @teams = Team.all

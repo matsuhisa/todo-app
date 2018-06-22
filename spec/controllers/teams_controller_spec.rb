@@ -7,7 +7,7 @@ RSpec.describe TeamsController, type: :controller do
     context 'ユーザーがログインしている時' do
       before { session[:user_id] = user.id }
 
-      let!(:user) { create :user }
+      let(:user) { create :user }
       let(:team) { create(:team) }
 
       it do
@@ -27,7 +27,7 @@ RSpec.describe TeamsController, type: :controller do
     context 'ユーザーがログインしている時' do
       before { session[:user_id] = user.id }
 
-      let!(:user) { create :user }
+      let(:user) { create :user }
 
       context 'when id is valid' do
         let(:team) { create(:team) }
@@ -60,7 +60,7 @@ RSpec.describe TeamsController, type: :controller do
     context 'ユーザーがログインしている時' do
       before { session[:user_id] = user.id }
 
-      let!(:user) { create :user }
+      let(:user) { create :user }
 
       it do
         is_expected.to have_http_status(:ok)
@@ -79,7 +79,7 @@ RSpec.describe TeamsController, type: :controller do
     context 'ユーザーがログインしている時' do
       before { session[:user_id] = user.id }
 
-      let!(:user) { create :user }
+      let(:user) { create :user }
 
       context 'when id is valid' do
         let(:team) { create(:team) }
@@ -112,7 +112,7 @@ RSpec.describe TeamsController, type: :controller do
     context 'ユーザーがログインしている時' do
       before { session[:user_id] = user.id }
 
-      let!(:user) { create :user }
+      let(:user) { create :user }
 
       context "with valid params" do
         let(:team_params) { attributes_for :team }
@@ -148,7 +148,7 @@ RSpec.describe TeamsController, type: :controller do
     context 'ユーザーがログインしている時' do
       before { session[:user_id] = user.id }
 
-      let!(:user) { create :user }
+      let(:user) { create :user }
       let(:team_params) { attributes_for :team, name: another_name }
 
       context 'with valid params' do
