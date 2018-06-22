@@ -1,0 +1,27 @@
+%h1 Listing tasks
+
+%table
+  %thead
+    %tr
+      %th Title
+      %th Description
+      %th User_ID
+      %th Team_ID
+      %th State
+      %th
+
+  %tbody
+    - @tasks.each do |task|
+      %tr
+        %td= task.title
+        %td= task.description
+        %td= task.user_id
+        %td= task.team_id
+        %td= task.state
+        %td= link_to 'Show', task
+
+%br
+
+= link_to 'Log Out', logout_path
+
+= link_to 'Top Page', root_path

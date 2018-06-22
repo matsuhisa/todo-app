@@ -1,0 +1,12 @@
+%h1 #{@task.title}のページ
+
+%p#notice= notice
+
+%p
+  %b Title:
+  = @task.title
+%p
+  %b Description:
+  =simple_format(@task.description)
+
+= link_to 'Back', tasks_path
