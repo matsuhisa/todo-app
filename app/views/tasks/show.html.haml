@@ -7,6 +7,6 @@
   = @task.title
 %p
   %b Description:
-  = @task.description
+  =simple_format(@task.description)
 
 = link_to 'Back', tasks_path
