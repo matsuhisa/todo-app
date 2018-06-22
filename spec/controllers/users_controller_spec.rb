@@ -96,7 +96,6 @@ RSpec.describe UsersController, type: :controller do
     context 'ログインしている時' do
       before { log_in user }
 
-
       context 'with valid params' do
         let(:user_params) { attributes_for :user, name: another_name }
 
@@ -104,7 +103,7 @@ RSpec.describe UsersController, type: :controller do
         let(:another_name) { "foo" }
 
         it 'redirects to user page' do
-          expect{ subject }.to change { user.reload.name }.from(current_name).to(another_name)
+          expect { subject }.to change { user.reload.name }.from(current_name).to(another_name)
           is_expected.to redirect_to user
         end
       end
@@ -115,7 +114,7 @@ RSpec.describe UsersController, type: :controller do
         let(:another_name) { "" }
 
         it 'redirects to user page' do
-          expect{ subject }.to_not change { user.reload.name }
+          expect { subject }.to_not change { user.reload.name }
           is_expected.to render_template :edit
         end
       end
@@ -137,7 +136,7 @@ RSpec.describe UsersController, type: :controller do
       before { log_in user }
 
       it "destroy a user" do
-        expect{ subject }.to change { User.count }.by(-1)
+        expect { subject }.to change { User.count }.by(-1)
         is_expected.to redirect_to users_url
       end
     end

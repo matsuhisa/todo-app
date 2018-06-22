@@ -42,7 +42,7 @@ RSpec.describe TeamsController, type: :controller do
       context 'when id is invalid' do
         let(:team_id) { 'aaa' }
 
-        it { expect{subject}.to raise_error ActiveRecord::RecordNotFound }
+        it { expect { subject }.to raise_error ActiveRecord::RecordNotFound }
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe TeamsController, type: :controller do
       context 'when id is invalid' do
         let(:team_id) { 'aaa' }
 
-        it { expect{subject}.to raise_error ActiveRecord::RecordNotFound }
+        it { expect { subject }.to raise_error ActiveRecord::RecordNotFound }
       end
     end
 
@@ -118,7 +118,7 @@ RSpec.describe TeamsController, type: :controller do
         let(:team_params) { attributes_for :team }
 
         it "creates a new Team" do
-          expect{ subject }.to change { Team.count }.by(1)
+          expect { subject }.to change { Team.count }.by(1)
           is_expected.to redirect_to(Team.last)
         end
       end
@@ -127,7 +127,7 @@ RSpec.describe TeamsController, type: :controller do
         let(:team_params) { attributes_for :team, name: "" }
 
         it do
-          expect{ subject }.not_to change { Team.count }
+          expect { subject }.not_to change { Team.count }
           is_expected.to render_template :new
         end
       end
@@ -155,7 +155,7 @@ RSpec.describe TeamsController, type: :controller do
         let(:another_name) { "みんなのウェディングチーム" }
 
         it 'redirects to team page' do
-          expect{ subject }.to change { team.reload.name }.to(another_name)
+          expect { subject }.to change { team.reload.name }.to(another_name)
           is_expected.to redirect_to team
         end
       end
@@ -164,7 +164,7 @@ RSpec.describe TeamsController, type: :controller do
         let(:another_name) { "" }
 
         it 'render to team editting page' do
-          expect{ subject }.to_not change { team.reload.name }
+          expect { subject }.to_not change { team.reload.name }
           is_expected.to render_template :edit
         end
       end
