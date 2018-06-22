@@ -5,7 +5,7 @@ RSpec.describe TeamsController, type: :controller do
     subject { get :index }
 
     context 'ユーザーがログインしている時' do
-      before { session[:user_id] = user.id }
+      before { log_in user }
 
       let(:user) { create :user }
       let(:team) { create(:team) }
