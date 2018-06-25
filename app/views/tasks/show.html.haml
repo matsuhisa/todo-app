@@ -1,10 +1,15 @@
-%h1 #{@task.title}のページ
-
+%h1 #{@task.title}
 %p#notice= notice
-
 %p
-  %b Title:
-  = @task.title
+  %b 担当者
+  = @task.user.name
+%p
+  %b グループ
+  = @task.team.name
+%p
+  %b メンバー
+  - @task.team.users.each do |member|
+    = member.name
 %p
   %b Description:
   =simple_format(@task.description)
