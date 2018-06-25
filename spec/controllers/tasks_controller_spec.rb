@@ -58,13 +58,18 @@ RSpec.describe TasksController, type: :controller do
   describe "#new" do
     subject { get :new }
 
-    let(:user) { create(:user) }
+    # let(:team1) { create(:team) }
+    # let(:team2) { create(:team) }
+    # let(:user) { create(:user, teams: [team1, team2])}
+
+    let(:user) { create(:user, teams: create_list(:team, 2))}
 
     before { log_in user }
 
     it do
       is_expected.to have_http_status(:ok)
       expect(assigns(:task).class).to eq Task
+      expect(assigns(:teams)).to eq user.teams
     end
   end
 
@@ -78,23 +83,19 @@ RSpec.describe TasksController, type: :controller do
     context "with valid params" do
       let(:task_params) { attributes_for :task }
 
-    context 'ログインしている時' do
-      before { log_in user }
-
-      context "with valid params" do
-        it "creates a new task" do
-          expect{ subject }.to change { Task.count }.by(1)
-          is_expected.to redirect_to(Task.last)
-        end
+      it "creates a new task" do
+        is_expected.to change { Task.count }.by(1)
+        expect(response).to redirect_to(Task.last)
+        expect(assigns(:task).user_id).to eq user.id
       end
 
       context "with invalid params" do
         let(:task_params) { attributes_for :task, title: "" }
 
-        it do
-          expect{ subject }.not_to change { Task.count }
-          is_expected.to render_template :new
-        end
+      it do
+        is_expected.not_to change { Task.count }
+        expect(response).to render_template :new
+        expect(assigns(:task).user_id).to eq user.id
       end
     end
 
