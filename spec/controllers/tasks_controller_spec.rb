@@ -6,15 +6,14 @@ RSpec.describe TasksController, type: :controller do
   describe "#index" do
     subject { get :index }
 
-    context 'ログインしている時' do
-      let(:task) { create(:task) }
+    let(:user) { create(:user) }
+    let(:task) { create(:task) }
 
-      before { log_in user }
+    before { log_in user }
 
-      it do
-        is_expected.to have_http_status(:ok)
-        expect(assigns(:tasks)).to contain_exactly task
-      end
+    it do
+      is_expected.to have_http_status(:ok)
+      expect(assigns(:tasks)).to contain_exactly task
     end
 
     context 'ログインしていない時' do
@@ -26,8 +25,13 @@ RSpec.describe TasksController, type: :controller do
   describe "#show" do
     subject { get :show, params: { id: task_id } }
 
-    let(:task) { create(:task) }
-    let(:task_id) { task.id }
+    let(:user) { create(:user) }
+
+    before { log_in user }
+
+    context 'when id is valid' do
+      let(:task) { create(:task) }
+      let(:task_id) { task.id }
 
     context 'ログインしている時' do
       before { log_in user }
@@ -54,24 +58,25 @@ RSpec.describe TasksController, type: :controller do
   describe "#new" do
     subject { get :new }
 
-    context 'ログインしている時' do
-      before { log_in user }
+    let(:user) { create(:user) }
 
-      it do
-        is_expected.to have_http_status(:ok)
-        expect(assigns(:task).class).to eq Task
-      end
-    end
+    before { log_in user }
 
-    context 'ログインしていない時' do
-      it { is_expected.to redirect_to root_path }
+    it do
+      is_expected.to have_http_status(:ok)
+      expect(assigns(:task).class).to eq Task
     end
   end
 
   describe "#create" do
     subject { post :create, params: { task: task_params } }
 
-    let(:task_params) { attributes_for :task }
+    let(:user) { create(:user) }
+
+    before { log_in user }
+
+    context "with valid params" do
+      let(:task_params) { attributes_for :task }
 
     context 'ログインしている時' do
       before { log_in user }
