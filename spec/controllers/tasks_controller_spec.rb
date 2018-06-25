@@ -6,10 +6,11 @@ RSpec.describe TasksController, type: :controller do
   describe "#index" do
     subject { get :index }
 
-    let(:user) { create(:user) }
-    let(:task) { create(:task) }
+    let(:task) { create(:task, :with_user_and_team) }
 
-    before { log_in user }
+    before do
+      log_in task.user
+    end
 
     it do
       is_expected.to have_http_status(:ok)
@@ -25,22 +26,17 @@ RSpec.describe TasksController, type: :controller do
   describe "#show" do
     subject { get :show, params: { id: task_id } }
 
-    let(:user) { create(:user) }
+    let(:task) { create(:task, :with_user_and_team) }
+    let(:task_id) { task.id }
 
-    before { log_in user }
+    before do
+      log_in task.user
+    end
 
     context 'when id is valid' do
-      let(:task) { create(:task) }
-      let(:task_id) { task.id }
-
-    context 'ログインしている時' do
-      before { log_in user }
-
-      context 'when id is valid' do
-        it do
-          is_expected.to have_http_status(:ok)
-          expect(assigns(:task)).to eq task
-        end
+      it do
+        is_expected.to have_http_status(:ok)
+        expect(assigns(:task)).to eq task
       end
 
       context 'when id is invalid' do
@@ -68,20 +64,23 @@ RSpec.describe TasksController, type: :controller do
     subject { post :create, params: { task: task_params } }
 
     let(:user) { create(:user) }
+    let!(:team) { create(:team, users: [user]) }
+    let(:task_params) { attributes_for :task, team_id: team.id }
 
     before { log_in user }
 
     context "with valid params" do
-      let(:task_params) { attributes_for :task }
 
       it "creates a new task" do
-        is_expected.to change { Task.count }.by(1)
-        expect(response).to redirect_to(Task.last)
-        expect(assigns(:task).user_id).to eq user.id
+        aggregate_failures do
+          is_expected.to change { Task.count }.by(1)
+          expect(response).to redirect_to(Task.last)
+          expect(assigns(:task).user_id).to eq user.id
+        end
       end
 
-      context "with invalid params" do
-        let(:task_params) { attributes_for :task, title: "" }
+    context "with invalid params" do
+      let(:task_params) { attributes_for :task, team_id: team.id, title: "" }
 
       it do
         is_expected.not_to change { Task.count }
