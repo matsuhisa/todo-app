@@ -78,7 +78,7 @@ RSpec.describe TasksController, type: :controller do
 
       context "with valid params" do
         it "creates a new task" do
-          expect{ subject }.to change { Task.count }.from(0).to(1)
+          expect{ subject }.to change { Task.count }.by(1)
           is_expected.to redirect_to(Task.last)
         end
       end
