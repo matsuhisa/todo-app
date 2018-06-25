@@ -46,23 +46,14 @@ RSpec.describe TasksController, type: :controller do
       context 'when id is invalid' do
         let(:task_id) { 'aaa' }
 
-        it { expect{subject}.to raise_error ActiveRecord::RecordNotFound }
-      end
-    end
-
-    context 'ログインしていない時' do
-      it { is_expected.to redirect_to root_path }
+      it { expect { subject }.to raise_error ActiveRecord::RecordNotFound }
     end
   end
 
   describe "#new" do
     subject { get :new }
 
-    # let(:team1) { create(:team) }
-    # let(:team2) { create(:team) }
-    # let(:user) { create(:user, teams: [team1, team2])}
-
-    let(:user) { create(:user, teams: create_list(:team, 2))}
+    let(:user) { create(:user, teams: create_list(:team, 2)) }
 
     before { log_in user }
 

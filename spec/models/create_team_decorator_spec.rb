@@ -11,9 +11,9 @@ RSpec.describe CreateTeamDecorator, type: :model do
       let(:attributes) { {} }
 
       it do
-        expect{subject}.to change { Team.count }.by(1).and \
+        expect { subject }.to change { Team.count }.by(1).and \
           change { User.count }.by(1).and \
-          change { UserTeam.count }.by(1)
+            change { UserTeam.count }.by(1)
         is_expected.to be_truthy
       end
     end
@@ -26,7 +26,7 @@ RSpec.describe CreateTeamDecorator, type: :model do
       before { allow_any_instance_of(Team).to receive(:save!).and_raise() }
 
       it do
-        expect{ subject }.not_to change { User.count }
+        expect { subject }.not_to change { User.count }
         is_expected.to be_falsey
       end
     end
