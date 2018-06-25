@@ -17,7 +17,7 @@ RSpec.describe TasksController, type: :controller do
       end
     end
 
-    context 'ログインしていないとき' do
+    context 'ログインしていない時' do
       it { is_expected.to redirect_to root_path }
     end
 
