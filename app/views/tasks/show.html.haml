@@ -11,7 +11,7 @@
   - @task.team.users.each do |member|
     = member.name
 %p
-  %b Description:
+  %b 詳細:
   =simple_format(@task.description)
 
 = link_to 'Back', tasks_path
