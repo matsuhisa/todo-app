@@ -1,0 +1,2 @@
+class TaskForm < ApplicationRecord
+end
