@@ -25,7 +25,7 @@ RSpec.describe UsersController, type: :controller do
 
     let(:user) { create(:user, :with_team_and_task) }
 
-    context 'ログインしている時'do
+    context 'ログインしている時' do
       before do
         log_in user
       end

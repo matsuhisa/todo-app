@@ -22,7 +22,6 @@ RSpec.describe TasksController, type: :controller do
     context 'ログインしていない時' do
       it { is_expected.to redirect_to root_path }
     end
-
   end
 
   describe "#show" do
@@ -42,11 +41,11 @@ RSpec.describe TasksController, type: :controller do
       end
     end
 
-      context 'when id is invalid' do
-        let(:task_id) { 'aaa' }
+    context 'when id is invalid' do
+    let(:task_id) { 'aaa' }
 
-      it { expect { subject }.to raise_error ActiveRecord::RecordNotFound }
-    end
+    it { expect { subject }.to raise_error ActiveRecord::RecordNotFound }
+  end
   end
 
   describe "#new" do
@@ -74,10 +73,9 @@ RSpec.describe TasksController, type: :controller do
       before { log_in user }
 
       context "with valid params" do
-
         it "creates a new task" do
           aggregate_failures do
-            expect{ subject }.to change { Task.count }.by(1)
+            expect { subject }.to change { Task.count }.by(1)
             expect(response).to redirect_to(Task.last)
             expect(assigns(:task).user_id).to eq user.id
           end
@@ -88,7 +86,7 @@ RSpec.describe TasksController, type: :controller do
         let(:task_params) { attributes_for :task, team_id: team.id, title: "" }
 
         it do
-          expect{ subject }.not_to change { Task.count }
+          expect { subject }.not_to change { Task.count }
           expect(response).to render_template :new
           expect(assigns(:task).user_id).to eq user.id
         end
