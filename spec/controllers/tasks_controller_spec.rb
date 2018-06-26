@@ -1,20 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe TasksController, type: :controller do
-  let(:user) { create(:user) }
+  # let(:user) { create(:user) }
 
   describe "#index" do
     subject { get :index }
 
-    let(:task) { create(:task, :with_user_and_team) }
+    context 'ログインしている時' do
+      let(:task) { create(:task, :with_user_and_team) }
 
-    before do
-      log_in task.user
-    end
+      before do
+        log_in task.user
+      end
 
-    it do
-      is_expected.to have_http_status(:ok)
-      expect(assigns(:tasks)).to contain_exactly task
+      it do
+        is_expected.to have_http_status(:ok)
+        expect(assigns(:tasks)).to contain_exactly task
+      end
     end
 
     context 'ログインしていない時' do
@@ -38,6 +40,7 @@ RSpec.describe TasksController, type: :controller do
         is_expected.to have_http_status(:ok)
         expect(assigns(:task)).to eq task
       end
+    end
 
       context 'when id is invalid' do
         let(:task_id) { 'aaa' }
@@ -67,25 +70,28 @@ RSpec.describe TasksController, type: :controller do
     let!(:team) { create(:team, users: [user]) }
     let(:task_params) { attributes_for :task, team_id: team.id }
 
-    before { log_in user }
+    context 'ログインしている時' do
+      before { log_in user }
 
-    context "with valid params" do
+      context "with valid params" do
 
-      it "creates a new task" do
-        aggregate_failures do
-          is_expected.to change { Task.count }.by(1)
-          expect(response).to redirect_to(Task.last)
-          expect(assigns(:task).user_id).to eq user.id
+        it "creates a new task" do
+          aggregate_failures do
+            expect{ subject }.to change { Task.count }.by(1)
+            expect(response).to redirect_to(Task.last)
+            expect(assigns(:task).user_id).to eq user.id
+          end
         end
       end
 
-    context "with invalid params" do
-      let(:task_params) { attributes_for :task, team_id: team.id, title: "" }
+      context "with invalid params" do
+        let(:task_params) { attributes_for :task, team_id: team.id, title: "" }
 
-      it do
-        is_expected.not_to change { Task.count }
-        expect(response).to render_template :new
-        expect(assigns(:task).user_id).to eq user.id
+        it do
+          expect{ subject }.not_to change { Task.count }
+          expect(response).to render_template :new
+          expect(assigns(:task).user_id).to eq user.id
+        end
       end
     end
 

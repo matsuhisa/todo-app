@@ -22,17 +22,18 @@ RSpec.describe UsersController, type: :controller do
 
   describe "#show" do
     subject { get :show, params: { id: user.id } }
-    let(:user) { create :user }
+
+    let(:user) { create(:user, :with_team_and_task) }
 
     context 'ログインしている時'do
-      let(:task) { create :task, { user_id: user.id } }
+      before do
+        log_in user
+      end
 
-      before { log_in user }
-
-      it do
+      it :aggregate_failures do
         is_expected.to have_http_status(:ok)
         expect(assigns(:user)).to eq user
-        expect(assigns(:tasks)).to eq [task]
+        expect(assigns(:tasks)).to eq user.tasks
       end
     end
 
