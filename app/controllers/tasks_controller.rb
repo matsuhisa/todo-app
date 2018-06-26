@@ -9,7 +9,6 @@ class TasksController < ApplicationController
   end
 
   def new
-    # @task = Task.new
     @task_form = TaskForm.new
     @teams = current_user.teams
   end
