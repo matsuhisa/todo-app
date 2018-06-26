@@ -22,19 +22,21 @@ RSpec.describe UsersController, type: :controller do
 
   describe "#show" do
     subject { get :show, params: { id: user.id } }
+    let(:user) { create :user }
 
-    let(:user) { create(:user) }
+    context 'ログインしている時'do
+      let(:task) { create :task, { user_id: user.id } }
 
-    context 'ログインしている時' do
       before { log_in user }
 
       it do
         is_expected.to have_http_status(:ok)
         expect(assigns(:user)).to eq user
+        expect(assigns(:tasks)).to eq [task]
       end
     end
 
-    context 'ログインしていない時' do
+    context 'ログインしていないとき' do
       it { is_expected.to redirect_to root_path }
     end
   end

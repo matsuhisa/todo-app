@@ -9,6 +9,22 @@
   %b Email:
   = @user.email
 
+%table
+  %thead
+    %tr
+      %th Task ID
+      %th Title
+      %th Description
+
+  %tbody
+    - @tasks.each do |task|
+      %tr
+        %td= task.id
+        %td= task.title
+        %td= simple_format(task.description)
+
+%br
+
 = link_to 'Edit', edit_user_path(@user)
 \|
 = link_to 'Back', users_path
