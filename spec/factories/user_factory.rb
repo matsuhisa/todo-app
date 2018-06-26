@@ -5,14 +5,13 @@ FactoryBot.define do
     password "TEST_PASSWORD"
     password_confirmation "TEST_PASSWORD"
 
-    factory :user_with_team_and_tasks do
+    factory :user_with_tasks do
       transient do
         tasks_count 1
       end
 
       after(:create) do |user, evaluator|
-        team = create(:team)
-        create_list(:task, evaluator.tasks_count, user: user, team: team)
+        create_list(:task, evaluator.tasks_count, user: user)
       end
     end
   end

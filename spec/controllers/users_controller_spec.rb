@@ -4,7 +4,7 @@ RSpec.describe UsersController, type: :controller do
   describe "#index" do
     subject { get :index }
 
-    let(:user) { create(:user_with_team_and_tasks) }
+    let(:user) { create(:user_with_tasks) }
 
     context 'ログインしている時' do
       before { log_in user }
@@ -23,7 +23,7 @@ RSpec.describe UsersController, type: :controller do
   describe "#show" do
     subject { get :show, params: { id: user.id } }
 
-    let(:user) { create(:user_with_team_and_tasks) }
+    let(:user) { create(:user_with_tasks) }
 
     context 'ログインしている時' do
       before do
@@ -54,7 +54,7 @@ RSpec.describe UsersController, type: :controller do
   describe "#edit" do
     subject { get :edit, params: { id: user.id } }
 
-    let(:user) { create(:user_with_team_and_tasks) }
+    let(:user) { create(:user_with_tasks) }
 
     context 'ログインしている時' do
       before { log_in user }
@@ -94,7 +94,7 @@ RSpec.describe UsersController, type: :controller do
   describe "#update" do
     subject { put :update, params: { id: user.id, user: user_params } }
 
-    let(:user) { create(:user_with_team_and_tasks) }
+    let(:user) { create(:user_with_tasks) }
 
     context 'ログインしている時' do
       before { log_in user }
@@ -133,7 +133,7 @@ RSpec.describe UsersController, type: :controller do
   describe "#destroy" do
     subject { delete :destroy, params: { id: user.id } }
 
-    let(:user) { create(:user_with_team_and_tasks) }
+    let(:user) { create(:user_with_tasks) }
 
     context 'ログインしている時' do
       before { log_in user }
