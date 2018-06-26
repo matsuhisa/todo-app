@@ -1,17 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe TasksController, type: :controller do
-  # let(:user) { create(:user) }
-
   describe "#index" do
     subject { get :index }
 
     context 'ログインしている時' do
-      let(:task) { create(:task, :with_user_and_team) }
+      let(:task) { create(:task) }
 
-      before do
-        log_in task.user
-      end
+      before { log_in task.user }
 
       it do
         is_expected.to have_http_status(:ok)
@@ -27,7 +23,7 @@ RSpec.describe TasksController, type: :controller do
   describe "#show" do
     subject { get :show, params: { id: task_id } }
 
-    let(:task) { create(:task, :with_user_and_team) }
+    let(:task) { create(:task) }
     let(:task_id) { task.id }
 
     before do
@@ -42,10 +38,10 @@ RSpec.describe TasksController, type: :controller do
     end
 
     context 'when id is invalid' do
-    let(:task_id) { 'aaa' }
+      let(:task_id) { 'aaa' }
 
-    it { expect { subject }.to raise_error ActiveRecord::RecordNotFound }
-  end
+      it { expect { subject }.to raise_error ActiveRecord::RecordNotFound }
+    end
   end
 
   describe "#new" do
@@ -66,19 +62,17 @@ RSpec.describe TasksController, type: :controller do
     subject { post :create, params: { task: task_params } }
 
     let(:user) { create(:user) }
-    let!(:team) { create(:team, users: [user]) }
+    let(:team) { create(:team, users: [user]) }
     let(:task_params) { attributes_for :task, team_id: team.id }
 
     context 'ログインしている時' do
       before { log_in user }
 
       context "with valid params" do
-        it "creates a new task" do
-          aggregate_failures do
-            expect { subject }.to change { Task.count }.by(1)
-            expect(response).to redirect_to(Task.last)
-            expect(assigns(:task).user_id).to eq user.id
-          end
+        it :aggregate_failures do
+          expect { subject }.to change { Task.count }.by(1)
+          expect(response).to redirect_to(Task.last)
+          expect(assigns(:task).user_id).to eq user.id
         end
       end
 

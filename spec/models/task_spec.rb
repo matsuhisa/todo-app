@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Task, type: :model do
   describe '#valid?' do
     let(:user) { create(:user) }
-    let!(:team) { create(:team, users: [user]) }
+    let(:team) { create(:team, users: [user]) }
     let(:valid_params) { { user_id: user.id, team_id: team.id } }
 
     subject { build :task, attributes }
