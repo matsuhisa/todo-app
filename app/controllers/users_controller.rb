@@ -18,6 +18,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    binding.pry
     @user = User.new(user_params)
     user_with_team_create = CreateTeamDecorator.new(user: @user)
 

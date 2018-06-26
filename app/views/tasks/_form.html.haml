@@ -1,10 +1,10 @@
-= form_for @task do |f|
-  - if @task.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@task.errors.count, "error")} prohibited this task from being saved:"
-      %ul
-        - @task.errors.full_messages.each do |message|
-          %li= message
+= form_with(model: @task_form, url: tasks_path)  do |f|
+  -# - if @task_form.errors.any?
+  -#   #error_explanation
+  -#     %h2= "#{pluralize(@task_form.errors.count, "error")} prohibited this task from being saved:"
+  -#     %ul
+  -#       - @task_form.errors.full_messages.each do |message|
+  -#         %li= message
 
   .field
     = f.label :title
@@ -18,5 +18,11 @@
   .field
     = f.label :state
     = f.select :state, Task.states.keys.map {|k| [k, k]}
+  .field
+    = f.label :end_at
+    = f.datetime_field :end_at
+  .field
+    = f.label :begin_at
+    = f.datetime_field :begin_at
   .actions
     = f.submit 'Save'
