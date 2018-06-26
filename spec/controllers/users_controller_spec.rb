@@ -4,7 +4,7 @@ RSpec.describe UsersController, type: :controller do
   describe "#index" do
     subject { get :index }
 
-    let(:user) { create(:user) }
+    let(:user) { create(:user_with_tasks) }
 
     context 'ログインしている時' do
       before { log_in user }
@@ -22,17 +22,18 @@ RSpec.describe UsersController, type: :controller do
 
   describe "#show" do
     subject { get :show, params: { id: user.id } }
-    let(:user) { create :user }
 
-    context 'ログインしている時'do
-      let(:task) { create :task, { user_id: user.id } }
+    let(:user) { create(:user_with_tasks) }
 
-      before { log_in user }
+    context 'ログインしている時' do
+      before do
+        log_in user
+      end
 
-      it do
+      it :aggregate_failures do
         is_expected.to have_http_status(:ok)
         expect(assigns(:user)).to eq user
-        expect(assigns(:tasks)).to eq [task]
+        expect(assigns(:tasks)).to match_array(user.tasks)
       end
     end
 
@@ -53,7 +54,7 @@ RSpec.describe UsersController, type: :controller do
   describe "#edit" do
     subject { get :edit, params: { id: user.id } }
 
-    let(:user) { create(:user) }
+    let(:user) { create(:user_with_tasks) }
 
     context 'ログインしている時' do
       before { log_in user }
@@ -93,7 +94,7 @@ RSpec.describe UsersController, type: :controller do
   describe "#update" do
     subject { put :update, params: { id: user.id, user: user_params } }
 
-    let(:user) { create(:user) }
+    let(:user) { create(:user_with_tasks) }
 
     context 'ログインしている時' do
       before { log_in user }
@@ -132,7 +133,7 @@ RSpec.describe UsersController, type: :controller do
   describe "#destroy" do
     subject { delete :destroy, params: { id: user.id } }
 
-    let(:user) { create(:user) }
+    let(:user) { create(:user_with_tasks) }
 
     context 'ログインしている時' do
       before { log_in user }

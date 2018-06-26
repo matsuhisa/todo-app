@@ -10,10 +10,11 @@ class TasksController < ApplicationController
 
   def new
     @task = Task.new
+    @teams = current_user.teams
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = Task.new task_params.merge(user: current_user)
 
     if @task.save
       redirect_to @task, notice: 'task was successfully created.'
@@ -29,6 +30,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :description, :user_id, :team_id, :state)
+    params.require(:task).permit(:title, :description, :team_id, :state)
   end
 end
