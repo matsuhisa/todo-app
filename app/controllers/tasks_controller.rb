@@ -9,15 +9,15 @@ class TasksController < ApplicationController
   end
 
   def new
-    @task = Task.new
+    @task_form = TaskForm.new
     @teams = current_user.teams
   end
 
   def create
-    @task = Task.new task_params.merge(user: current_user)
+    @task_form = TaskForm.new task_form_params.merge(user: current_user)
 
-    if @task.save
-      redirect_to @task, notice: 'task was successfully created.'
+    if @task_form.save
+      redirect_to @task_form.task, notice: 'task was successfully created.'
     else
       render :new
     end
@@ -29,7 +29,7 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end
 
-  def task_params
-    params.require(:task).permit(:title, :description, :team_id, :state)
+  def task_form_params
+    params.require(:task_form).permit(:title, :description, :end_at, :begin_at, :team_id, :state)
   end
 end

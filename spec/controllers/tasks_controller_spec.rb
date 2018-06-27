@@ -53,17 +53,19 @@ RSpec.describe TasksController, type: :controller do
 
     it do
       is_expected.to have_http_status(:ok)
-      expect(assigns(:task).class).to eq Task
+      expect(assigns(:task_form).class).to eq TaskForm
       expect(assigns(:teams)).to eq user.teams
     end
   end
 
   describe "#create" do
-    subject { post :create, params: { task: task_params } }
+    subject { post :create, params: { task_form: task_params} }
 
     let(:user) { create(:user) }
     let(:team) { create(:team, users: [user]) }
-    let(:task_params) { attributes_for :task, team_id: team.id }
+    let(:task_params) { attributes_for :task, team_id: team.id, end_at: end_at, begin_at: begin_at }
+    let(:begin_at) { attributes_for :completion_date }
+    let(:end_at) { attributes_for :task_due_date }
 
     context 'ログインしている時' do
       before { log_in user }
@@ -72,17 +74,17 @@ RSpec.describe TasksController, type: :controller do
         it :aggregate_failures do
           expect { subject }.to change { Task.count }.by(1)
           expect(response).to redirect_to(Task.last)
-          expect(assigns(:task).user_id).to eq user.id
+          expect(assigns(:task_form).user.id).to eq user.id
         end
       end
 
       context "with invalid params" do
-        let(:task_params) { attributes_for :task, team_id: team.id, title: "" }
+        let(:task_params) { attributes_for :task, title: "", team_id: team.id, end_at: end_at, begin_at: begin_at }
 
         it do
           expect { subject }.not_to change { Task.count }
           expect(response).to render_template :new
-          expect(assigns(:task).user_id).to eq user.id
+          expect(assigns(:task_form).user.id).to eq user.id
         end
       end
     end
