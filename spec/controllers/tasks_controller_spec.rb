@@ -74,7 +74,7 @@ RSpec.describe TasksController, type: :controller do
         it :aggregate_failures do
           expect { subject }.to change { Task.count }.by(1)
           expect(response).to redirect_to(Task.last)
-          expect(assigns(:task_form).task.user_id).to eq user.id
+          expect(assigns(:task_form).user.id).to eq user.id
         end
       end
 
@@ -84,7 +84,7 @@ RSpec.describe TasksController, type: :controller do
         it do
           expect { subject }.not_to change { Task.count }
           expect(response).to render_template :new
-          expect(assigns(:task_form).task.user_id).to eq user.id
+          expect(assigns(:task_form).user.id).to eq user.id
         end
       end
     end
