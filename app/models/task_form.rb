@@ -11,11 +11,11 @@ class TaskForm
     task.save
   end
 
-  private
+  def task
+    @task ||= Task.new(params)
+  end
 
-    def task
-      @task ||= Task.new(params)
-    end
+  private
 
     def params
       { title: title, description: description, user: user, team_id: team_id, state: state }
