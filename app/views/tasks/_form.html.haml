@@ -14,7 +14,7 @@
     = f.text_area :description
   .field
     = f.label :team_id
-    = f.select :team_id, @teams.map { |t| [t.name, t.id]  }
+    = f.select :team_id, current_user.teams.map { |t| [t.name, t.id]  }
   .field
     = f.label :state
     = f.select :state, Task.states.keys.map {|k| [k, k]}

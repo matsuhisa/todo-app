@@ -51,10 +51,9 @@ RSpec.describe TasksController, type: :controller do
 
     before { log_in user }
 
-    it do
+    it :aggregate_failures do
       is_expected.to have_http_status(:ok)
       expect(assigns(:task_form).class).to eq TaskForm
-      expect(assigns(:teams)).to eq user.teams
     end
   end
 

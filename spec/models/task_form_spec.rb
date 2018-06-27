@@ -1,15 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe TaskForm, type: :model do
-  describe '#save' do
-    subject { task_form.save }
+  describe '#create' do
+    subject { task_form.create }
 
     let(:user) { create(:user) }
     let(:team) { create(:team, users: [user]) }
     let(:begin_at) { Time.zone.now }
     let(:end_at) { Time.zone.now }
+    let(:task) { build(:task) }
     let(:task_params) { attributes_for :task, team_id: team.id, end_at: end_at, begin_at: begin_at }
-    let(:task_form) { TaskForm.new(task_params.merge(user: user)) }
+    let(:task_form) { TaskForm.new(task, task_params.merge(user: user)) }
 
     context 'saveに成功する時' do
 

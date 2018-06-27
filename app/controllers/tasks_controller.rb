@@ -9,14 +9,13 @@ class TasksController < ApplicationController
   end
 
   def new
-    @task_form = TaskForm.new
-    @teams = current_user.teams
+    @task_form = TaskForm.new(Task.new)
   end
 
   def create
-    @task_form = TaskForm.new task_form_params.merge(user: current_user)
+    @task_form = TaskForm.new(Task.new, task_form_params.merge(user: current_user))
 
-    if @task_form.save
+    if @task_form.create
       redirect_to @task_form.task, notice: 'task was successfully created.'
     else
       render :new
