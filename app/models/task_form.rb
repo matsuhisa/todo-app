@@ -4,6 +4,8 @@ class TaskForm
   attr_accessor :title, :description, :user, :team_id, :state, :begin_at, :end_at
   attr_accessor :task
 
+  delegate :persisted?, to: :task
+
   def initialize(task, attributes = {})
     @task = task
     super(attributes)
@@ -16,9 +18,11 @@ class TaskForm
     @task.save
   end
 
-  # def task
-  #   @task ||= Task.new(params)
-  # end
+  def update
+    task.completion_date = begin_at if begin_at.present?
+    task.task_due_date = end_at if end_at.present?
+    task.update(task_params)
+  end
 
   private
     def task_params

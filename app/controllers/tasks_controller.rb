@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: :show
+  before_action :set_task, only: [:show, :edit, :update]
 
   def index
     @tasks = Task.all
@@ -12,6 +12,10 @@ class TasksController < ApplicationController
     @task_form = TaskForm.new(Task.new)
   end
 
+  def edit
+    @task_form = TaskForm.new(@task, @task.form_params)
+  end
+
   def create
     @task_form = TaskForm.new(Task.new, task_form_params.merge(user: current_user))
 
@@ -19,6 +23,16 @@ class TasksController < ApplicationController
       redirect_to @task_form.task, notice: 'task was successfully created.'
     else
       render :new
+    end
+  end
+
+  def update
+    @task_form = TaskForm.new(@task, task_form_params.merge(user: current_user))
+
+    if @task_form.update
+      redirect_to @task_form.task, notice: 'task was successfully updated.'
+    else
+      render :edit
     end
   end
 
