@@ -34,6 +34,8 @@ class TaskForm
       else
         TaskDueDate.new(end_at: end_at)
       end
+    elsif task.task_due_date
+      task.task_due_date.destroy!
     end
   end
 
@@ -45,6 +47,8 @@ class TaskForm
       else
         CompletionDate.new(begin_at: begin_at)
       end
+    elsif task.completion_date
+      task.completion_date.destroy!
     end
   end
 end
