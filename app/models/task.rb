@@ -8,9 +8,6 @@ class Task < ApplicationRecord
   belongs_to :user
   belongs_to :team
 
-  accepts_nested_attributes_for :task_due_date
-  accepts_nested_attributes_for :completion_date
-
   enum state: { registered: 0, assigned: 1, completed: 2 }
 
   def form_params
