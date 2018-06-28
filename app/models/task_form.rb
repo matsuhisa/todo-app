@@ -2,7 +2,7 @@ class TaskForm
   include ActiveModel::Model
 
   attr_accessor :title, :description, :user, :team_id, :state, :begin_at, :end_at
-  attr_accessor :task
+  attr_reader :task
 
   delegate :persisted?, to: :task
 
