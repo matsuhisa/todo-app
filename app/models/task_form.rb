@@ -12,8 +12,8 @@ class TaskForm
   end
 
   def create
-    @task = Task.new(task_params)
-    @task.save
+    task.assign_attributes(task_params)
+    task.save
   end
 
   def update
