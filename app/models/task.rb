@@ -9,16 +9,4 @@ class Task < ApplicationRecord
   belongs_to :team
 
   enum state: { registered: 0, assigned: 1, completed: 2 }
-
-  def form_params
-    {
-      title: title,
-      description: description,
-      state: state,
-      user: user,
-      team_id: team_id,
-      end_at: task_due_date&.end_at,
-      begin_at: completion_date&.begin_at
-    }
-  end
 end

@@ -13,7 +13,7 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task_form = TaskForm.new(@task, @task.form_params)
+    @task_form = TaskForm.new(@task, form_params)
   end
 
   def create
@@ -44,5 +44,17 @@ class TasksController < ApplicationController
 
   def task_form_params
     params.require(:task_form).permit(:title, :description, :end_at, :begin_at, :team_id, :state)
+  end
+
+  def form_params
+    {
+      title: @task.title,
+      description: @task.description,
+      state: @task.state,
+      user: @task.user,
+      team_id: @task.team_id,
+      end_at: @task.task_due_date&.end_at,
+      begin_at: @task.completion_date&.begin_at
+    }
   end
 end
